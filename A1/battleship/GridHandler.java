@@ -14,6 +14,7 @@ import java.util.*;
 public class GridHandler {
     Scanner input = new Scanner(System.in);
     private char[][] grid = new char[9][9];
+    private boolean isDestroyed;
 
     public GridHandler() {
     }

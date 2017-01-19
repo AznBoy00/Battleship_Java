@@ -5,10 +5,22 @@
  */
 package battleship;
 
+import java.util.*;
+
 /**
  *
  * @author Kevin
  */
 public class GameHandler {
+
+    Scanner i = new Scanner(System.in);
+    private String input;
+    
+    public GameHandler() {
+    }
+    
+    public void promptUser() {
+        input = i.next();
+    }
     
 }
