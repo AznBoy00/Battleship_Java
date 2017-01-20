@@ -12,8 +12,9 @@ import java.util.*;
  * @author Kevin
  */
 public class GridHandler {
+    Ship ship = new Ship();
     Scanner input = new Scanner(System.in);
-    private char[][] grid = new char[9][9];
+    private Ship[][] grid = new Ship[9][9];
     private boolean isDestroyed;
 
     public GridHandler() {
@@ -34,11 +35,20 @@ public class GridHandler {
         }
     }
     
+    public void integrateShips() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (ship.getShip() != null)
+                    
+            }
+        }
+    }
+    
     public void showGrid() {
         System.out.println("__________________");
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                System.out.print(grid[i][j] + "|");
+                System.out.print(grid[i][j] + " ");
             }
             System.out.println("\n__________________");
         }
