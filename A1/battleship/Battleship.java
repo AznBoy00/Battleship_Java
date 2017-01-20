@@ -16,9 +16,8 @@ public class Battleship {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        GridHandler grid= new GridHandler();
-        grid.createGrid();
-        grid.showGrid();
+        Game game = new Game();
+        game.run();
     }
     
 }

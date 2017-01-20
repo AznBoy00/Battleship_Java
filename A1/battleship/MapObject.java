@@ -9,10 +9,15 @@ package battleship;
  *
  * @author Kevin
  */
-public class Ship {
+public class MapObject {
     
     private String coordinates;
+    /**
+     * S=Player Ship, G=Player Grenade, s=AI Ship, G=AI Grenade, *=sinked object
+     */
+    private char objectType;
     private boolean isDestroyed;
+    
     
     public void Ship(String coordinates) {
         this.coordinates = coordinates;

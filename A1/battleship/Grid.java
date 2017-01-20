@@ -11,13 +11,13 @@ import java.util.*;
  *
  * @author Kevin
  */
-public class GridHandler {
-    Ship ship = new Ship();
+public class Grid {
+    MapObject ship = new MapObject();
     Scanner input = new Scanner(System.in);
-    private Ship[][] grid = new Ship[9][9];
-    private boolean isDestroyed;
+    private MapObject[][] grid;
+    private boolean isDestroyed = false;
 
-    public GridHandler() {
+    public Grid() {
     }
     
     public void createGrid() {
