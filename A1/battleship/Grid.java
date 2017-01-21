@@ -37,8 +37,33 @@ public class Grid {
         return this.grid[x][y].getType();
     }
     
-    public void shootRocker(int player, String xy) {
-        
+    public void shootRocket(String xy) {
+        int x = xy.charAt(0)-64;
+        int y = xy.charAt(1);
+        switch(this.grid[x][y].getType()) {
+            case 0:
+                System.out.print("Nothing.");
+                break;
+            case 1:
+                System.out.print("Ship hit.");
+                break;
+            case 2:
+                System.out.print("Boom! Grenade!");
+                break;
+            case 3:
+                System.out.print("Ship hit.");
+                break;
+            case 4:
+                System.out.print("Boom! Grenade!");
+                break;
+            case 5:
+                System.out.print("Position already called.");
+                break;    
+            default:
+                System.out.print("Error.");//E for error
+                break;
+        }
+        this.grid[x][y].setType(5);
     }
     
     public void showGrid() {
