@@ -10,22 +10,13 @@ package battleship;
  * @author Kevin
  */
 public class MapObject {
-    
-    private String coordinates;
-    /**
-     * S=Player Ship, G=Player Grenade, s=AI Ship, G=AI Grenade, *=sinked object
-     */
-    private char objectType;
+
     private boolean isDestroyed;
-    
-    
-    public void Ship(String coordinates) {
-        this.coordinates = coordinates;
+    private int type; //0=empty, 1=player ship, 2=player grenade, 3=ai ship, 4=ai grenade, 5=has been shot.
+
+    public MapObject(int type) {
+        this.type = type;
         this.isDestroyed = false;
-    }
-    
-    public String getShip() {
-        return coordinates;
     }
     
     public void destroyShip() {
@@ -38,5 +29,15 @@ public class MapObject {
             return true;
         return false;
     }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+    
+    
     
 }

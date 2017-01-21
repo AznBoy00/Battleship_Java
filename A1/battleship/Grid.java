@@ -12,45 +12,64 @@ import java.util.*;
  * @author Kevin
  */
 public class Grid {
-    MapObject ship = new MapObject();
-    Scanner input = new Scanner(System.in);
+    
     private MapObject[][] grid;
     private boolean isDestroyed = false;
-
-    public Grid() {
-    }
     
-    public void createGrid() {
-        grid [0][0] = ' ';
-        for (int i = 0; i < 8; i++) {
-            grid [0][i+1] = (char)(65+i);
-        }
-        for (int i = 0; i < 8; i++) {
-            grid [i+1][0] = (char)(49+i);
-        }
+    public Grid(){
+        this.grid = new MapObject[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                grid [i+1][j+1] = ' ';
+                this.grid[i][j] = new MapObject(0);
             }
         }
     }
     
-    public void integrateShips() {
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (ship.getShip() != null)
-                    
-            }
-        }
+    public void insertGrid(String xy, int type) {
+        int x = xy.charAt(0)-64;
+        int y = xy.charAt(1);
+        this.grid[x][y].setType(type);
+    }
+    
+    public int getGrid(String xy) {
+        int x = xy.charAt(0)-64;
+        int y = xy.charAt(1);
+        return this.grid[x][y].getType();
+    }
+    
+    public void shootRocker(int player, String xy) {
+        
     }
     
     public void showGrid() {
-        System.out.println("__________________");
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                System.out.print(grid[i][j] + " ");
+        for (int i = 0; i < 8; i++) {
+            System.out.print("\t");
+            for (int j = 0; j < 8; j++) {
+                switch(this.grid[i][j].getType()) {
+                    case 0:
+                        System.out.print("_ ");
+                        break;
+                    case 1:
+                        System.out.print("S ");
+                        break;
+                    case 2:
+                        System.out.print("G ");
+                        break;
+                    case 3:
+                        System.out.print("s ");
+                        break;
+                    case 4:
+                        System.out.print("g ");
+                        break;
+                    case 5:
+                        System.out.print("* ");
+                        break;    
+                    default:
+                        System.out.print("E ");//E for error
+                        break;
+                }
             }
-            System.out.println("\n__________________");
+            System.out.println();
         }
     }
     
