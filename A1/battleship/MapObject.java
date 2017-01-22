@@ -10,24 +10,12 @@ package battleship;
  * @author Kevin
  */
 public class MapObject {
-
-    private boolean isDestroyed;
-    private int type; //0=empty, 1=player ship, 2=player grenade, 3=ai ship, 4=ai grenade, 5=has been shot.
-
-    public MapObject(int type) {
+    private int type; //0=empty tile, 1=player ship, 2=player grenade, 3=ai ship, 4=ai grenade, 5=shot empty tile, 6=shot player ship, 7=shot player grenade, 8=shot ai ship, 9=shot ai grenade. (0 to 5 are initially shown as _ until it's destroyed.)
+    private int owner;
+    
+    public MapObject(int type, int owner) {
         this.type = type;
-        this.isDestroyed = false;
-    }
-    
-    public void destroyShip() {
-        if (this.isDestroyed != true)
-            this.isDestroyed = true;
-    }
-    
-    public boolean isDestroyed() {
-        if (isDestroyed == true)
-            return true;
-        return false;
+        this.owner = owner;
     }
 
     public int getType() {
@@ -37,7 +25,5 @@ public class MapObject {
     public void setType(int type) {
         this.type = type;
     }
-    
-    
     
 }
