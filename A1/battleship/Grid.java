@@ -26,44 +26,15 @@ public class Grid {
     }
     
     public void insertGrid(String xy, int type) {
-        int x = xy.charAt(0)-64;
-        int y = xy.charAt(1);
+        int x = convertLetter(xy);
+        int y = Integer.parseInt(xy.substring(1, 2)) - 1;
         this.grid[x][y].setType(type);
     }
     
     public int getGrid(String xy) {
-        int x = xy.charAt(0)-64;
-        int y = xy.charAt(1);
+        int x = convertLetter(xy);
+        int y = Integer.parseInt(xy.substring(1, 2)) - 1;
         return this.grid[x][y].getType();
-    }
-    
-    public void shootRocket(String xy) {
-        int x = xy.charAt(0)-64;
-        int y = xy.charAt(1);
-        switch(this.grid[x][y].getType()) {
-            case 0:
-                System.out.print("Nothing.");
-                break;
-            case 1:
-                System.out.print("Ship hit.");
-                break;
-            case 2:
-                System.out.print("Boom! Grenade!");
-                break;
-            case 3:
-                System.out.print("Ship hit.");
-                break;
-            case 4:
-                System.out.print("Boom! Grenade!");
-                break;
-            case 5:
-                System.out.print("Position already called.");
-                break;    
-            default:
-                System.out.print("Error.");//E for error
-                break;
-        }
-        this.grid[x][y].setType(5);
     }
     
     public void showGrid() {
@@ -97,5 +68,8 @@ public class Grid {
             System.out.println();
         }
     }
-    
+
+    public MapObject[][] getGrid() {
+        return grid;
+    }    
 }
