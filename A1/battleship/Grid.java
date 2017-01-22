@@ -5,8 +5,6 @@
  */
 package battleship;
 
-import java.util.*;
-
 /**
  *
  * @author Kevin
@@ -20,15 +18,16 @@ public class Grid {
         this.mapObject = new MapObject[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                this.mapObject[i][j] = new MapObject(0);
+                this.mapObject[i][j] = new MapObject(0, 0);
             }
         }
     }
     
-    public void insertGrid(String xy, int type) {
+    public void insertGrid(String xy, int type, int player) {
         int x = convertLetter(xy);
         int y = Integer.parseInt(xy.substring(1, 2)) - 1;
         this.mapObject[x][y].setType(type);
+        this.mapObject[x][y].setOwner(player);
     }
     
     public int getGrid(String xy) {

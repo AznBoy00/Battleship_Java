@@ -17,12 +17,14 @@ public class PlayerAction {
     private String xy;
     private int turnCount;
     private int shipCount;
-
+    
     public PlayerAction() {
+        turnCount = 0;
+        shipCount = 0;
     }
     
-    public void playerObjectSetup() {
-        for (int i = 0; i < 6; i++) {//Insert ships.
+    public void playerObjectSetup(Grid grid, Game game) {
+        for (int i = 0; i < game.GAME_SHIP_COUNT; i++) {//Insert ships.
             System.out.print("Enter the coordinates of your ship #" + (i+1) + ": ");
             xy = input.nextLine();
             while (checkInput(xy)) {
@@ -35,10 +37,11 @@ public class PlayerAction {
                 System.out.print("Enter the coordinates of your ship #" + (i+1) + ": ");
                 xy = input.nextLine();
             }
-            this.grid.insertGrid(xy, 1);
+            grid.insertGrid(xy, 1, 1);
+            this.shipCount++;
         }
         System.out.println();
-        for (int i = 0; i < 4; i++) {//Insert grenades.
+        for (int i = 0; i < game.GAME_GRENADE_COUNT; i++) {//Insert grenades.
             System.out.print("Enter the coordinates of your grenade #" + (i+1) + ": ");
             xy = input.nextLine();
             while (checkInput(xy)) {
@@ -51,7 +54,7 @@ public class PlayerAction {
                 System.out.print("Enter the coordinates of your grenade #" + (i+1) + ": ");
                 xy = input.nextLine();
             }
-            this.grid.insertGrid(xy, 2);
+            grid.insertGrid(xy, 2, 1);
         }
     }
     
@@ -69,5 +72,21 @@ public class PlayerAction {
             return true;
         else
             return false;
+    }
+
+    public int getTurnCount() {
+        return turnCount;
+    }
+
+    public void setTurnCount(int turnCount) {
+        this.turnCount = turnCount;
+    }
+
+    public int getShipCount() {
+        return shipCount;
+    }
+
+    public void setShipCount(int shipCount) {
+        this.shipCount = shipCount;
     }
 }
