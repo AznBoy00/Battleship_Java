@@ -100,8 +100,8 @@ public class AiAction {
     
     public void myTurn(Grid grid, Game game) {
         String xy = xyGenerator();
-        while (grid.getGridType(xyGenerator()) < 6) {
-            xyGenerator();
+        while (grid.getGridType(xyGenerator()) > 4) {
+            xy = xyGenerator();
         }
         System.out.print("\nPosition of my rocket: " + xy + "\n");
         game.shootRocket(xy, 2);

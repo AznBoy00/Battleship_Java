@@ -40,7 +40,6 @@ public class Game {
             case 1:
                 if (player.getShipCount() == 0) {
                     System.out.print("Ship hit.");
-                    checkWin();
                 } else {
                     System.out.print("Ship hit.\n");
                 }
@@ -53,7 +52,6 @@ public class Game {
             case 3:
                 if (ai.getShipCount() == 0) {
                     System.out.print("Ship hit.");
-                    checkWin();
                 } else {
                     System.out.print("Ship hit.\n");
                 }
@@ -98,11 +96,13 @@ public class Game {
                 player.myTurn(this);
                 grid.showGrid();
                 ai.setTurnCount(this.ai.getTurnCount()+1);
+                checkWin();
             }
             if (ai.getTurnCount() > 0) {
                 ai.myTurn(grid, this);
                 grid.showGrid();
                 player.setTurnCount(this.player.getTurnCount()+1);
+                checkWin();
             }
         }
     }

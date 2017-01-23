@@ -61,11 +61,11 @@ public class PlayerAction {
     }
     
     private boolean checkInput(String xy) {
-        xy = xy.toUpperCase();
-        String y = xy.substring(1, 2);
         if (xy.length() != 2)
             return true;
-        else if (xy.charAt(0) < 'A')
+        xy = xy.toUpperCase();
+        String y = xy.substring(1, 2);
+        if (xy.charAt(0) < 'A')
             return true;
         else if (xy.charAt(0) > 'H')
             return true;
