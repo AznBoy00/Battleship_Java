@@ -33,7 +33,7 @@ public class Grid {
     public int getGridType(String xy) {
         int x = convertLetter(xy);
         int y = Integer.parseInt(xy.substring(1, 2)) - 1;
-        return this.mapObject[x][y].getType();
+        return this.mapObject[y][x].getType();
     }
     
     public void showGrid() {
@@ -146,18 +146,20 @@ public class Grid {
         int y = Integer.parseInt(xy.substring(1, 2)) - 1;
         switch (this.mapObject[y][x].getType()) {
             case 0:
-                this.mapObject[y][x].setType(6);
+                this.mapObject[y][x].setType(5);
                 break;
             case 1:
-                this.mapObject[y][x].setType(7);
+                this.mapObject[y][x].setType(6);
                 break;
             case 2:
-                this.mapObject[y][x].setType(8);
+                this.mapObject[y][x].setType(7);
                 break;
             case 3:
-                this.mapObject[y][x].setType(9);
+                this.mapObject[y][x].setType(8);
                 break;
             case 4:
+                this.mapObject[y][x].setType(9);
+                break;
             case 5:
             case 6:
             case 7:

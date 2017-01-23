@@ -33,7 +33,6 @@ public class Game {
     }
 
     public void shootRocket(String xy, int fromPlayer) {
-        grid.destroyMapObject(xy);
         switch(grid.getGridType(xy)) {
             case 0:
                 System.out.print("Nothing.\n");
@@ -71,6 +70,7 @@ public class Game {
                 System.out.print("Error in shootRocket(String xy, int fromPlayer)\n");//E for error
                 break;
         }
+        grid.destroyMapObject(xy);
     }
     
     private void grenadeTouchDown(int player) {
