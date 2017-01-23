@@ -23,7 +23,7 @@ public class PlayerAction {
         shipCount = 0;
     }
     
-    public void playerObjectSetup(Grid grid, Game game) {
+    public void objectSetup(Grid grid, Game game) {
         for (int i = 0; i < game.GAME_SHIP_COUNT; i++) {//Insert ships.
             System.out.print("Enter the coordinates of your ship #" + (i+1) + ": ");
             xy = input.nextLine();
