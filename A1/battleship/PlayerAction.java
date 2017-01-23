@@ -32,7 +32,7 @@ public class PlayerAction {
                 System.out.print("Enter the coordinates of your ship #" + (i+1) + ": ");
                 xy = input.nextLine();
             }
-            while (checkInput(xy) && grid.getGrid(xy) != 0) {
+            while (checkInput(xy) && grid.getGridType(xy) != 0) {
                 System.out.println("Sorry, coordinates already used. Try again.");
                 System.out.print("Enter the coordinates of your ship #" + (i+1) + ": ");
                 xy = input.nextLine();
@@ -49,7 +49,7 @@ public class PlayerAction {
                 System.out.print("Enter the coordinates of your grenade #" + (i+1) + ": ");
                 xy = input.nextLine();
             }
-            while (checkInput(xy) && grid.getGrid(xy) != 0) {
+            while (checkInput(xy) && grid.getGridType(xy) != 0) {
                 System.out.println("Sorry, coordinates already used. Try again.");
                 System.out.print("Enter the coordinates of your grenade #" + (i+1) + ": ");
                 xy = input.nextLine();
@@ -88,5 +88,17 @@ public class PlayerAction {
 
     public void setShipCount(int shipCount) {
         this.shipCount = shipCount;
+    }
+    
+    public void myTurn(Game game) {
+        System.out.print("\nPosition of your rocket: ");
+        xy = input.nextLine();
+        while (checkInput(xy)) {
+            System.out.println("Sorry, coordinates is invalid.");
+            System.out.print("Position of my rocket: ");
+            xy = input.nextLine();
+        }
+        game.shootRocket(xy, 1);
+        turnCount--;
     }
 }

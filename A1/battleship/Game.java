@@ -29,48 +29,59 @@ public class Game {
         System.out.println("Hi, let's play Battleship!\n");
         player.objectSetup(grid, this);
         ai.objectSetup(grid, this);
-        grid.showGrid();
+        startGame();
     }
 
-    public void shootRocket(String xy, int fromPlayer) {// TODO GRENADE PROCESS
-        switch(grid.getGrid(xy)) {
+    public void shootRocket(String xy, int fromPlayer) {
+        grid.destroyMapObject(xy);
+        switch(grid.getGridType(xy)) {
             case 0:
-                System.out.print("Nothing.");
+                System.out.print("Nothing.\n");
                 break;
             case 1:
-                System.out.print("Ship hit.");
+                if (player.getShipCount() == 0) {
+                    System.out.print("Ship hit.");
+                    checkWin();
+                } else {
+                    System.out.print("Ship hit.\n");
+                }
                 player.setShipCount(player.getShipCount()-1);
                 break;
             case 2:
-                System.out.print("Boom! Grenade!");
+                System.out.print("Boom! Grenade!\n");
                 grenadeTouchDown(fromPlayer);
                 break;
             case 3:
-                System.out.print("Ship hit.");
+                if (ai.getShipCount() == 0) {
+                    System.out.print("Ship hit.");
+                    checkWin();
+                } else {
+                    System.out.print("Ship hit.\n");
+                }
                 ai.setShipCount(ai.getShipCount()-1);
                 break;
             case 4:
-                System.out.print("Boom! Grenade!");
+                System.out.print("Boom! Grenade!\n");
                 grenadeTouchDown(fromPlayer);
                 break;
             case 5:
-                System.out.print("Position already called.");
+                System.out.print("Position already called.\n");
                 break;    
             default:
-                System.out.print("Error in shootRocket(String xy, int fromPlayer)");//E for error
+                System.out.print("Error in shootRocket(String xy, int fromPlayer)\n");//E for error
                 break;
         }
-        grid.destroyMapObject(xy);
-        checkWin();
     }
     
     private void grenadeTouchDown(int player) {
         switch (player) {
             case 1:
-                this.player.setTurnCount(-1);
+                this.player.setTurnCount(this.player.getTurnCount()-1);
+                this.ai.setTurnCount(this.ai.getTurnCount()+1);
                 break;
             case 2:
-                this.ai.setTurnCount(-1);
+                this.ai.setTurnCount(this.ai.getTurnCount()-1);
+                this.player.setTurnCount(this.player.getTurnCount()+1);
                 break;
             default:
                 System.out.println("Error in grenadeTouchDown(int player)");
@@ -79,8 +90,18 @@ public class Game {
     }
     
     public void startGame() {
+        player.setTurnCount(1);
         while (onGoingGame) {
-            
+            if (player.getTurnCount() > 0) {
+                player.myTurn(this);
+                grid.showGrid();
+                ai.setTurnCount(this.ai.getTurnCount()+1);
+            }
+            if (ai.getTurnCount() > 0) {
+                ai.myTurn(grid, this);
+                grid.showGrid();
+                player.setTurnCount(this.player.getTurnCount()+1);
+            }
         }
     }
     

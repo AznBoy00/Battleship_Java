@@ -26,11 +26,11 @@ public class Grid {
     public void insertGrid(String xy, int type, int player) {
         int x = convertLetter(xy);
         int y = Integer.parseInt(xy.substring(1, 2)) - 1;
-        this.mapObject[x][y].setType(type);
-        this.mapObject[x][y].setOwner(player);
+        this.mapObject[y][x].setType(type);
+        this.mapObject[y][x].setOwner(player);
     }
     
-    public int getGrid(String xy) {
+    public int getGridType(String xy) {
         int x = convertLetter(xy);
         int y = Integer.parseInt(xy.substring(1, 2)) - 1;
         return this.mapObject[x][y].getType();
@@ -100,21 +100,21 @@ public class Grid {
     public void destroyMapObject(String xy) {
         int x = convertLetter(xy);
         int y = Integer.parseInt(xy.substring(1, 2)) - 1;
-        switch (this.mapObject[x][y].getType()) {
+        switch (this.mapObject[y][x].getType()) {
             case 0:
-                this.mapObject[x][y].setType(6);
+                this.mapObject[y][x].setType(6);
                 break;
             case 1:
-                this.mapObject[x][y].setType(7);
+                this.mapObject[y][x].setType(7);
                 break;
             case 2:
-                this.mapObject[x][y].setType(8);
+                this.mapObject[y][x].setType(8);
                 break;
             case 3:
-                this.mapObject[x][y].setType(9);
+                this.mapObject[y][x].setType(9);
                 break;
             default:
-                this.mapObject[x][y].setType(-1); //-1 as error.
+                this.mapObject[y][x].setType(-1); //-1 as error.
                 break;
         }
     }
