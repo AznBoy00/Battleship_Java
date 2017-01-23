@@ -17,10 +17,12 @@ public class PlayerAction {
     private String xy;
     private int turnCount;
     private int shipCount;
+    private int turnSkipped;
     
     public PlayerAction() {
-        turnCount = 0;
-        shipCount = 0;
+        this.turnCount = 0;
+        this.shipCount = 0;
+        this.turnSkipped = 0;
     }
     
     public void objectSetup(Grid grid, Game game) {
@@ -59,6 +61,7 @@ public class PlayerAction {
     }
     
     private boolean checkInput(String xy) {
+        xy = xy.toUpperCase();
         String y = xy.substring(1, 2);
         if (xy.length() != 2)
             return true;
@@ -100,5 +103,13 @@ public class PlayerAction {
         }
         game.shootRocket(xy, 1);
         turnCount--;
+    }
+
+    public int getTurnSkipped() {
+        return turnSkipped;
+    }
+
+    public void setTurnSkipped(int turnSkipped) {
+        this.turnSkipped = turnSkipped;
     }
 }

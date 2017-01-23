@@ -55,13 +55,57 @@ public class Grid {
                         System.out.print("S ");
                         break;
                     case 7:
-                        System.out.print("G ");
+                        System.out.print("g ");
                         break;
                     case 8:
-                        System.out.print("s ");
+                        System.out.print("S ");
                         break;
                     case 9:
+                        System.out.print("G ");
+                        break;
+                    default:
+                        System.out.print("E ");//E for error
+                        break;
+                }
+            }
+            System.out.println();
+        }
+    }
+    
+    public void revealGrid() {
+        for (int i = 0; i < 8; i++) {
+            System.out.print("\t");
+            for (int j = 0; j < 8; j++) {
+                switch(this.mapObject[i][j].getType()) {
+                    case 0:
+                        System.out.print("_ ");
+                        break;
+                    case 1:
+                        System.out.print("s ");
+                        break;
+                    case 2:
                         System.out.print("g ");
+                        break;
+                    case 3:
+                        System.out.print("S ");
+                        break;
+                    case 4:
+                        System.out.print("G ");
+                        break;
+                    case 5:
+                        System.out.print("* ");
+                        break;
+                    case 6:
+                        System.out.print("S ");
+                        break;
+                    case 7:
+                        System.out.print("g ");
+                        break;
+                    case 8:
+                        System.out.print("S ");
+                        break;
+                    case 9:
+                        System.out.print("G ");
                         break;
                     default:
                         System.out.print("E ");//E for error
@@ -113,8 +157,14 @@ public class Grid {
             case 3:
                 this.mapObject[y][x].setType(9);
                 break;
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+                break;
             default:
-                this.mapObject[y][x].setType(-1); //-1 as error.
                 break;
         }
     }

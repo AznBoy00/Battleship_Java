@@ -77,10 +77,12 @@ public class Game {
         switch (player) {
             case 1:
                 this.player.setTurnCount(this.player.getTurnCount()-1);
+                this.player.setTurnSkipped(this.player.getTurnSkipped()+1);
                 this.ai.setTurnCount(this.ai.getTurnCount()+1);
                 break;
             case 2:
                 this.ai.setTurnCount(this.ai.getTurnCount()-1);
+                this.ai.setTurnSkipped(this.ai.getTurnSkipped()+1);
                 this.player.setTurnCount(this.player.getTurnCount()+1);
                 break;
             default:
@@ -108,10 +110,18 @@ public class Game {
     private void checkWin() {
         if (player.getShipCount() == 0) {
             System.out.print("\tI Win!\n");
+            endMessage();
         } else if (ai.getShipCount() == 0) {
             System.out.print("\tYou Win!\n");
+            endMessage();
         }
         this.onGoingGame = false;
+    }
+    
+    private void endMessage() {
+        System.out.println("The player has missed: " + player.getTurnSkipped() + " turns due to hitting a grenade.");
+        System.out.println("The computer has missed: " + ai.getTurnSkipped() + " turns due to hitting a grenade.");
+        grid.revealGrid();
     }
     
 }

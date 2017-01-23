@@ -12,10 +12,20 @@ package battleship;
 public class AiAction {
     private int turnCount;
     private int shipCount;
+    private int turnSkipped;
 
     public AiAction() {
         this.turnCount = 0;
         this.shipCount = 0;
+        this.turnSkipped = 0;
+    }
+
+    public int getTurnSkipped() {
+        return turnSkipped;
+    }
+
+    public void setTurnSkipped(int turnSkipped) {
+        this.turnSkipped = turnSkipped;
     }
 
     public int getTurnCount() {
