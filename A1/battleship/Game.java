@@ -71,17 +71,17 @@ public class Game {
         grid.destroyMapObject(xy);
     }
     
-    private void grenadeTouchDown(int player) {
-        switch (player) {
+    private void grenadeTouchDown(int fromPlayer) {
+        switch (fromPlayer) {
             case 1:
-                this.player.setTurnCount(this.player.getTurnCount()-1);
-                this.player.setTurnSkipped(this.player.getTurnSkipped()+1);
-                this.ai.setTurnCount(this.ai.getTurnCount()+1);
+                player.setTurnCount(player.getTurnCount()-1);
+                player.setTurnSkipped(player.getTurnSkipped()+1);
+                ai.setTurnCount(ai.getTurnCount()+1);
                 break;
             case 2:
-                this.ai.setTurnCount(this.ai.getTurnCount()-1);
-                this.ai.setTurnSkipped(this.ai.getTurnSkipped()+1);
-                this.player.setTurnCount(this.player.getTurnCount()+1);
+                ai.setTurnCount(ai.getTurnCount()-1);
+                ai.setTurnSkipped(ai.getTurnSkipped()+1);
+                player.setTurnCount(player.getTurnCount()+1);
                 break;
             default:
                 System.out.println("Error in grenadeTouchDown(int player)");
