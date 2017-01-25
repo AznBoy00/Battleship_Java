@@ -97,8 +97,7 @@ public class Game {
                 grid.showGrid();
                 ai.setTurnCount(this.ai.getTurnCount()+1);
                 checkWin();
-            }
-            if (ai.getTurnCount() > 0) {
+            } else if (ai.getTurnCount() > 0) {
                 ai.myTurn(grid, this);
                 grid.showGrid();
                 player.setTurnCount(this.player.getTurnCount()+1);
@@ -111,11 +110,13 @@ public class Game {
         if (player.getShipCount() == 0) {
             System.out.print("\tI Win!\n");
             endMessage();
+            this.onGoingGame = false;
         } else if (ai.getShipCount() == 0) {
             System.out.print("\tYou Win!\n");
             endMessage();
+            this.onGoingGame = false;
         }
-        this.onGoingGame = false;
+        
     }
     
     private void endMessage() {

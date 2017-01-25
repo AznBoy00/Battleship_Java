@@ -47,15 +47,15 @@ public class AiAction {
     public void objectSetup(Grid grid, Game game) {
         String xy = xyGenerator();
         for (int i = 0; i < game.GAME_SHIP_COUNT; i++) {
-            while (grid.getGridType(xyGenerator()) != 0) {
+            while (grid.getGridType(xy) != 0) {
                 xy = xyGenerator();
             }
             grid.insertGrid(xy, 1, 2);
             this.shipCount++;
         }
         for (int i = 0; i < game.GAME_GRENADE_COUNT; i++) {
-            while (grid.getGridType(xyGenerator()) != 0) {
-                xyGenerator();
+            while (grid.getGridType(xy) != 0) {
+                xy=xyGenerator();
             }
             grid.insertGrid(xy, 2, 2);
         }
