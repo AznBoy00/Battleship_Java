@@ -40,19 +40,19 @@ public class Game {
             case 1:
                 player.setShipCount(player.getShipCount()-1);
                 if (player.getShipCount() == 0) {
-                    System.out.print("Ship hit.\tYou win!");
+                    System.out.println("Ship hit.\tYou win!");
                 } else {
-                    System.out.print("Ship hit.\n");
+                    System.out.println("Ship hit.");
                 }
                 break;
             case 2:
-                System.out.print("Boom! Grenade!\n");
+                System.out.println("Boom! Grenade!");
                 grenadeTouchDown(xy, fromPlayer);
                 break;
             case 3:
                 ai.setShipCount(ai.getShipCount()-1);
                 if (ai.getShipCount() == 0) {
-                    System.out.print("Ship hit.\tI win!");
+                    System.out.println("Ship hit.\tI win!");
                 } else {
                     System.out.print("Ship hit.\n");
                 }
@@ -76,6 +76,8 @@ public class Game {
                     player.setTurnCount(player.getTurnCount()-1);
                     player.setTurnSkipped(player.getTurnSkipped()+1);
                     ai.setTurnCount(ai.getTurnCount()+1);
+                } else {
+                    System.out.println("You shot at your own grenade...");
                 }
                 break;
             case 2:
@@ -83,10 +85,12 @@ public class Game {
                     ai.setTurnCount(ai.getTurnCount()-1);
                     ai.setTurnSkipped(ai.getTurnSkipped()+1);
                     player.setTurnCount(player.getTurnCount()+1);
+                } else {
+                    System.out.println("You shot at your own grenade...");
                 }
                 break;
             default:
-                System.out.println("Error in grenadeTouchDown(int player)");
+                System.out.println("Error in grenadeTouchDown(int fromPlayer)");
                 break;
         }
     }
@@ -110,7 +114,7 @@ public class Game {
     
     private void checkWin() {
         if (player.getShipCount() == 0 || ai.getShipCount() == 0) {
-            System.out.println("The player has missed: " + player.getTurnSkipped() + " turns due to hitting a grenade.");
+            System.out.println("\nThe player has missed: " + player.getTurnSkipped() + " turns due to hitting a grenade.");
             System.out.println("The computer has missed: " + ai.getTurnSkipped() + " turns due to hitting a grenade.");
             grid.revealGrid();
             this.onGoingGame = false;

@@ -55,7 +55,7 @@ public class AiAction {
         }
         for (int i = 0; i < game.GAME_GRENADE_COUNT; i++) {
             while (grid.getGridType(xy) != 0) {
-                xy=xyGenerator();
+                xy = xyGenerator();
             }
             grid.insertGrid(xy, 2, 2);
         }
