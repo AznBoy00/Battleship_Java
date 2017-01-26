@@ -36,6 +36,12 @@ public class Grid {
         return this.mapObject[y][x].getType();
     }
     
+    public int getGridOwner (String xy) {
+        int x = convertLetter(xy);
+        int y = Integer.parseInt(xy.substring(1, 2)) - 1;
+        return this.mapObject[y][x].getOwner(); //1=player, 2=AI
+    }
+    
     public void showGrid() {
         for (int i = 0; i < 8; i++) {
             System.out.print("\t");

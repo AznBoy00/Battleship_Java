@@ -47,7 +47,7 @@ public class Game {
                 break;
             case 2:
                 System.out.print("Boom! Grenade!\n");
-                grenadeTouchDown(fromPlayer);
+                grenadeTouchDown(xy, fromPlayer);
                 break;
             case 3:
                 if (ai.getShipCount() == 0) {
@@ -59,7 +59,7 @@ public class Game {
                 break;
             case 4:
                 System.out.print("Boom! Grenade!\n");
-                grenadeTouchDown(fromPlayer);
+                grenadeTouchDown(xy, fromPlayer);
                 break;
             case 5:
                 System.out.print("Position already called.\n");
@@ -71,17 +71,21 @@ public class Game {
         grid.destroyMapObject(xy);
     }
     
-    private void grenadeTouchDown(int fromPlayer) {
+    private void grenadeTouchDown(String xy, int fromPlayer) {
         switch (fromPlayer) {
             case 1:
-                player.setTurnCount(player.getTurnCount()-1);
-                player.setTurnSkipped(player.getTurnSkipped()+1);
-                ai.setTurnCount(ai.getTurnCount()+1);
+                if (grid.getGridOwner(xy) == 2) {
+                    player.setTurnCount(player.getTurnCount()-1);
+                    player.setTurnSkipped(player.getTurnSkipped()+1);
+                    ai.setTurnCount(ai.getTurnCount()+1);
+                }
                 break;
             case 2:
-                ai.setTurnCount(ai.getTurnCount()-1);
-                ai.setTurnSkipped(ai.getTurnSkipped()+1);
-                player.setTurnCount(player.getTurnCount()+1);
+                if (grid.getGridOwner(xy) == 1) {
+                    ai.setTurnCount(ai.getTurnCount()-1);
+                    ai.setTurnSkipped(ai.getTurnSkipped()+1);
+                    player.setTurnCount(player.getTurnCount()+1);
+                }
                 break;
             default:
                 System.out.println("Error in grenadeTouchDown(int player)");
