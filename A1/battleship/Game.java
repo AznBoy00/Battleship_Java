@@ -78,6 +78,9 @@ public class Game {
                     ai.setTurnCount(ai.getTurnCount()+1);
                 } else {
                     System.out.println("You shot at your own grenade...");
+                    ai.setTurnCount(ai.getTurnCount()-1);
+                    ai.setTurnSkipped(ai.getTurnSkipped()+1);
+                    player.setTurnCount(player.getTurnCount()+1);
                 }
                 break;
             case 2:
@@ -86,11 +89,14 @@ public class Game {
                     ai.setTurnSkipped(ai.getTurnSkipped()+1);
                     player.setTurnCount(player.getTurnCount()+1);
                 } else {
-                    System.out.println("You shot at your own grenade...");
+                    System.out.println("I shot at my own grenade...");
+                    player.setTurnCount(player.getTurnCount()-1);
+                    player.setTurnSkipped(player.getTurnSkipped()+1);
+                    ai.setTurnCount(ai.getTurnCount()+1);
                 }
                 break;
             default:
-                System.out.println("Error in grenadeTouchDown(int fromPlayer)");
+                System.out.println("Error in grenadeTouchDown(int fromPlayer)");// DEBUG PURPOSE
                 break;
         }
     }
