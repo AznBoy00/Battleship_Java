@@ -38,34 +38,32 @@ public class Game {
                 System.out.print("Nothing.\n");
                 break;
             case 1:
+                player.setShipCount(player.getShipCount()-1);
                 if (player.getShipCount() == 0) {
-                    System.out.print("Ship hit.");
+                    System.out.print("Ship hit.\tYou win!");
                 } else {
                     System.out.print("Ship hit.\n");
                 }
-                player.setShipCount(player.getShipCount()-1);
                 break;
             case 2:
                 System.out.print("Boom! Grenade!\n");
                 grenadeTouchDown(xy, fromPlayer);
                 break;
             case 3:
+                ai.setShipCount(ai.getShipCount()-1);
                 if (ai.getShipCount() == 0) {
-                    System.out.print("Ship hit.");
+                    System.out.print("Ship hit.\tI win!");
                 } else {
                     System.out.print("Ship hit.\n");
                 }
-                ai.setShipCount(ai.getShipCount()-1);
                 break;
             case 4:
                 System.out.print("Boom! Grenade!\n");
                 grenadeTouchDown(xy, fromPlayer);
                 break;
-            case 5:
-                System.out.print("Position already called.\n");
-                break;    
             default:
-                System.out.print("Error in shootRocket(String xy, int fromPlayer)\n");//E for error
+                //System.out.print("Error in shootRocket(String xy, int fromPlayer)\n");//For Debug Purpose
+                System.out.println("Position already called.");
                 break;
         }
         grid.destroyMapObject(xy);
@@ -93,7 +91,7 @@ public class Game {
         }
     }
     
-    public void startGame() {
+    private void startGame() {
         player.setTurnCount(1);
         while (onGoingGame) {
             if (player.getTurnCount() > 0) {
@@ -111,22 +109,12 @@ public class Game {
     }
     
     private void checkWin() {
-        if (player.getShipCount() == 0) {
-            System.out.print("\tI Win!\n");
-            endMessage();
-            this.onGoingGame = false;
-        } else if (ai.getShipCount() == 0) {
-            System.out.print("\tYou Win!\n");
-            endMessage();
+        if (player.getShipCount() == 0 || ai.getShipCount() == 0) {
+            System.out.println("The player has missed: " + player.getTurnSkipped() + " turns due to hitting a grenade.");
+            System.out.println("The computer has missed: " + ai.getTurnSkipped() + " turns due to hitting a grenade.");
+            grid.revealGrid();
             this.onGoingGame = false;
         }
-        
-    }
-    
-    private void endMessage() {
-        System.out.println("The player has missed: " + player.getTurnSkipped() + " turns due to hitting a grenade.");
-        System.out.println("The computer has missed: " + ai.getTurnSkipped() + " turns due to hitting a grenade.");
-        grid.revealGrid();
     }
     
 }

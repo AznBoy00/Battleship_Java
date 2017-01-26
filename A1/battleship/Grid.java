@@ -58,7 +58,7 @@ public class Grid {
                         System.out.print("* ");
                         break;
                     case 6:
-                        System.out.print("S ");
+                        System.out.print("s ");
                         break;
                     case 7:
                         System.out.print("g ");
@@ -102,7 +102,7 @@ public class Grid {
                         System.out.print("* ");
                         break;
                     case 6:
-                        System.out.print("S ");
+                        System.out.print("s ");
                         break;
                     case 7:
                         System.out.print("g ");
