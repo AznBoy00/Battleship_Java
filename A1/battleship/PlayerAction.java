@@ -1,15 +1,14 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Assignment 1
+ * For COMP 249 Section PP - Winter 2017
  */
 package battleship;
 
 import java.util.Scanner;
 
 /**
- *
- * @author Kevin
+ * This class manages the actions inputed by the player on the game class.
+ * @author Kevin Lin - 40002383
  */
 public class PlayerAction {
     

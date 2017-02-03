@@ -1,13 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Assignment 1
+ * For COMP 249 Section PP - Winter 2017
  */
 package battleship;
 
 /**
- *
- * @author Kevin
+ * This class consists of an array of methods accessed by the computer in order to play the game.
+ * @author Kevin Lin - 40002383
  */
 public class AiAction {
     private int turnCount;

@@ -1,13 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Assignment 1
+ * For COMP 249 Section PP - Winter 2017
  */
 package battleship;
 
 /**
- *
- * @author Kevin
+ * This class manages the game grids on the map so it makes the interface readable by the computer and by the player.
+ * @author Kevin Lin - 40002383
  */
 public class Grid {
     

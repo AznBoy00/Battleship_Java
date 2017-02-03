@@ -1,13 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Assignment 1
+ * For COMP 249 Section PP - Winter 2017
  */
 package battleship;
 
 /**
- *
- * @author Kevin
+ * This is the main file in which you start the program.
+ * @author Kevin Lin - 40002383
  */
 public class BattleshipApp {
 
@@ -16,6 +15,9 @@ public class BattleshipApp {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        /**
+         * This is the main file in which will startup the game.
+         */
         Game game = new Game();
         game.run();
     }
