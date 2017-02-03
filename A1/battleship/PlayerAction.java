@@ -41,7 +41,7 @@ public class PlayerAction {
                 System.out.print("Enter the coordinates of your ship #" + (i+1) + ": ");
                 xy = input.nextLine();
             }
-            while (checkInput(xy) & grid.getGridType(xy) != 0) {
+            while (grid.getGridType(xy) != 0) {
                 System.out.println("Sorry, coordinates already used. Try again.");
                 System.out.print("Enter the coordinates of your ship #" + (i+1) + ": ");
                 xy = input.nextLine();

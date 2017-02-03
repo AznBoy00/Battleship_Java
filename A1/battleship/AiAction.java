@@ -81,14 +81,14 @@ public class AiAction {
             while (grid.getGridType(xy) != 0) {
                 xy = xyGenerator();
             }
-            grid.insertGrid(xy, 1, 2);
+            grid.insertGrid(xy, 3, 2);
             this.shipCount++;
         }
         for (int i = 0; i < game.GAME_GRENADE_COUNT; i++) {
             while (grid.getGridType(xy) != 0) {
                 xy = xyGenerator();
             }
-            grid.insertGrid(xy, 2, 2);
+            grid.insertGrid(xy, 4, 2);
         }
         System.out.println("OK, the computer placed its ships and grenades at random. Let's Play.");
     }
