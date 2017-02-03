@@ -11,13 +11,10 @@ package battleship;
 public class BattleshipApp {
 
     /**
+     * This is the main file in which will startup the game.
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        /**
-         * This is the main file in which will startup the game.
-         */
         Game game = new Game();
         game.run();
     }

@@ -17,6 +17,9 @@ public class Game {
     private PlayerAction player;
     private AiAction ai;
     
+    /**
+     * Default constructor to initiate more constructors to start the game.
+     */
     public Game() {
         this.onGoingGame = true;
         this.grid = new Grid();
@@ -24,6 +27,9 @@ public class Game {
         this.ai = new AiAction();
     }
     
+    /**
+     * Method in which will startup the game with a welcome, by prompting the player to setup his objects, by making the computer setting up his objects and then call the startGame() method.
+     */
     public void run() {
         System.out.println("Hi, let's play Battleship!\n");
         player.objectSetup(grid, this);
@@ -31,6 +37,11 @@ public class Game {
         startGame();
     }
 
+    /**
+     * Method in which coordinates the rocket to trigger the player's action and will trigger another method depending on the type of the grid.
+     * @param xy as a String representing the coordinates.
+     * @param fromPlayer as an integer corresponding the the player who placed this action.
+     */
     public void shootRocket(String xy, int fromPlayer) {
         switch(grid.getGridType(xy)) {
             case 0:
@@ -68,6 +79,11 @@ public class Game {
         grid.destroyMapObject(xy);
     }
     
+    /**
+     * Void method in which activates when a player hits a grenade in an xy coordinate.
+     * @param xy as a String in which represents the coordinates on the grid.
+     * @param fromPlayer as an integer in which represents the player who shot the grenade.
+     */
     private void grenadeTouchDown(String xy, int fromPlayer) {
         switch (fromPlayer) {
             case 1:
@@ -100,6 +116,9 @@ public class Game {
         }
     }
     
+    /**
+     * Private void method in which starts the game after all players have placed all their mapObjects on the grid.
+     */
     private void startGame() {
         player.setTurnCount(1);
         while (onGoingGame) {
@@ -117,6 +136,9 @@ public class Game {
         }
     }
     
+    /**
+     * Private void method in which checks for a win condition while the game is going on (onGoingGame = true) after every player completes a turn.
+     */
     private void checkWin() {
         if (player.getShipCount() == 0 || ai.getShipCount() == 0) {
             System.out.println("\nThe player has missed: " + player.getTurnSkipped() + " turns due to hitting a grenade.");

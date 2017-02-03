@@ -13,36 +13,68 @@ public class AiAction {
     private int shipCount;
     private int turnSkipped;
 
+    /**
+     * Default constructor for AiAction that will set everything to 0 initially.
+     */
     public AiAction() {
         this.turnCount = 0;
         this.shipCount = 0;
         this.turnSkipped = 0;
     }
 
+    /**
+     * Getter method that gets the number of turn(s) skipped.
+     * @return turnSkipped as an integer value.
+     */
     public int getTurnSkipped() {
         return turnSkipped;
     }
 
+    /**
+     * Void setter method that sets the number of turns to skip.
+     * @param accepts turnSkipped integer value to set the number of turns to skip. 
+     */
     public void setTurnSkipped(int turnSkipped) {
         this.turnSkipped = turnSkipped;
     }
 
+    /**
+     * Getter method that gets the number of turn(s) count.
+     * @return turnCount as an integer value.
+     */
     public int getTurnCount() {
         return turnCount;
     }
 
+    /**
+     * Void method that sets the number of turn(s).
+     * @param accepts turnCount integer value to set the number of turnCount. 
+     */
     public void setTurnCount(int turnCount) {
         this.turnCount = turnCount;
     }
 
+    /**
+     * Getter method that gets the number of ship(s)
+     * @return shipCount as an integer value.
+     */
     public int getShipCount() {
         return shipCount;
     }
 
+    /**
+     * Void setter method that sets the ship count by the accepted value.
+     * @param shipCount as integer
+     */
     public void setShipCount(int shipCount) {
         this.shipCount = shipCount;
     }
     
+    /**
+     * This void method makes the computer generate and place his ships and grenades in legal positions by passing through Grid and Game classes.
+     * @param grid as an existing Grid class.
+     * @param game as an existing Game class.
+     */
     public void objectSetup(Grid grid, Game game) {
         String xy = xyGenerator();
         for (int i = 0; i < game.GAME_SHIP_COUNT; i++) {
@@ -61,6 +93,10 @@ public class AiAction {
         System.out.println("OK, the computer placed its ships and grenades at random. Let's Play.");
     }
     
+    /**
+     * This String method will return a randomly generated coordinate while it will replace the first number by its corresponding letter through a switch statement.
+     * @return String from generated numbers.
+     */
     private String xyGenerator() {
         int firstLetter = (int)(Math.random()*8)+1;
         int y = (int)(Math.random()*8)+1;
@@ -97,6 +133,11 @@ public class AiAction {
         return x+y;
     }
     
+    /**
+     * 
+     * @param grid as an existing instance of Grid.
+     * @param game as an existing instance of Game.
+     */
     public void myTurn(Grid grid, Game game) {
         String xy = xyGenerator();
         while (grid.getGridType(xy) > 4) {

@@ -98,7 +98,7 @@ public class Grid {
                         System.out.print("G ");
                         break;
                     case 5:
-                        System.out.print("* ");
+                        System.out.print("_ ");
                         break;
                     case 6:
                         System.out.print("s ");
