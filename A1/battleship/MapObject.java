@@ -9,7 +9,7 @@ package battleship;
  * @author Kevin Lin - 40002383
  */
 public class MapObject {
-    /**
+    /*
      * The variables below are number coded in order to ease the program's code to function more accurately instead of using specific string names.
      * This method reduces significantly the sizes of classes in the project.
      * 

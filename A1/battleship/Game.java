@@ -81,8 +81,8 @@ public class Game {
     
     /**
      * Void method in which activates when a player hits a grenade in an xy coordinate.
-     * @param xy as a String in which represents the coordinates on the grid.
-     * @param fromPlayer as an integer in which represents the player who shot the grenade.
+     * @param xy x & y coordinates
+     * @param fromPlayer turn player
      */
     private void grenadeTouchDown(String xy, int fromPlayer) {
         switch (fromPlayer) {
@@ -93,9 +93,9 @@ public class Game {
                     ai.setTurnCount(ai.getTurnCount()+1);
                 } else {
                     System.out.println("You shot at your own grenade...");
-                    ai.setTurnCount(ai.getTurnCount()-1);
-                    ai.setTurnSkipped(ai.getTurnSkipped()+1);
-                    player.setTurnCount(player.getTurnCount()+1);
+                    player.setTurnCount(player.getTurnCount()-1);
+                    player.setTurnSkipped(player.getTurnSkipped()+1);
+                    ai.setTurnCount(ai.getTurnCount()+1);
                 }
                 break;
             case 2:
@@ -105,9 +105,9 @@ public class Game {
                     player.setTurnCount(player.getTurnCount()+1);
                 } else {
                     System.out.println("I shot at my own grenade...");
-                    player.setTurnCount(player.getTurnCount()-1);
-                    player.setTurnSkipped(player.getTurnSkipped()+1);
-                    ai.setTurnCount(ai.getTurnCount()+1);
+                    ai.setTurnCount(ai.getTurnCount()-1);
+                    ai.setTurnSkipped(ai.getTurnSkipped()+1);
+                    player.setTurnCount(player.getTurnCount()+1);
                 }
                 break;
             default:
