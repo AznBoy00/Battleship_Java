@@ -4,9 +4,10 @@
     Written by: Kevin Lin - 40002383
 */
 
-package InformationDesk;
+//PART2
 
 import AirTransportation.*;
+import InformationDesk.PublicTransportation;
 import LandTransportation.*;
 import WaterTransportation.*;
 
