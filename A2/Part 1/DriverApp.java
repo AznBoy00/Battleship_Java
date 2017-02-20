@@ -29,8 +29,6 @@ public class DriverApp {
         pTrans[7] = new PublicTransportation(pTrans[1]);
         pTrans[8] = new CityBus((CityBus) pTrans[2]);
         pTrans[9] = new Metro((Metro) pTrans[3]);
-        pTrans[10] = new Tram((Tram) pTrans[4]);
-        pTrans[11] = new Ferry((Ferry) pTrans[5]);
         
         pTrans[9].setTicketPrice(999999.99);
         
@@ -40,8 +38,8 @@ public class DriverApp {
         
         // Prints the toString from each object.
         
-        for (int i = 0; i < 6; i++) {
-            if(pTrans[i].equals(pTrans[i+6])) {
+        for (int i = 0; i < 5; i++) {
+            if(pTrans[i].equals(pTrans[i+5])) {
                 System.out.println("equal");
             } else {
                 System.out.println("not equal");

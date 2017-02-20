@@ -29,44 +29,40 @@ public class Driver {
         pTrans[7] = new PublicTransportation(pTrans[1]);
         pTrans[8] = new CityBus((CityBus) pTrans[2]);
         pTrans[9] = new Metro((Metro) pTrans[3]);
+        pTrans[10] = new Tram((Tram) pTrans[4]);
+        pTrans[11] = new Ferry((Ferry) pTrans[5]);
+        
         pTrans[9].setTicketPrice(999999.99);
         
         for (int i = 0; i < pTrans.length; i++) {
             System.out.println(pTrans[i].toString());
         }
         
-        // Prints the toString from each object.
+        System.out.println();
+        System.out.println();
+        System.out.println();
         
-        for (int i = 0; i < 6; i++) {
-            if(pTrans[i].equals(pTrans[i+6])) {
-                System.out.println("equal");
-            } else {
-                System.out.println("not equal");
+        // Display content of copied cityBus array.
+        
+        PublicTransportation[] newTrans = copyCityBus(pTrans);
+        
+        for (int i = 0; i < newTrans.length; i++) {
+            System.out.println(newTrans[i]);
+        }
+    }
+    
+    /**
+     * Copy the CityBus Objects into a new array of object.
+     * @param p PublicTransportation array.
+     * @return PublicTransportation array.
+     */
+    private static PublicTransportation[] copyCityBus(PublicTransportation[] p) {
+        PublicTransportation[] pTransp = new PublicTransportation[p.length];
+        for (int i = 0; i < pTransp.length; i++) {
+            if (p[i].getClass() == CityBus.class) {
+                pTransp[i] = new CityBus((CityBus)p[i]);
             }
         }
-        
-        // Check for low and high price of fair ticket and outputs info.
-        
-        double lowestPrice = pTrans[0].getTicketPrice();
-        double highestPrice = pTrans[0].getTicketPrice();
-        int arrayPosLow = 0;           
-        int arrayPosHigh = 0;
-        
-        for (int i = 0; i < pTrans.length; i++) {            
-            if (pTrans[i].getTicketPrice() < lowestPrice) {
-                lowestPrice = pTrans[i].getTicketPrice();
-                arrayPosLow = i;
-            }
-            if (pTrans[i].getTicketPrice() > highestPrice) {
-                highestPrice = pTrans[i].getTicketPrice();
-                arrayPosHigh = i;
-            }
-        }
-        
-        System.out.println("The lowest price transport information:");
-        System.out.println(pTrans[arrayPosLow]);
-        System.out.println("The highest price transport information:");
-        System.out.println(pTrans[arrayPosHigh]);
-        
+        return pTransp;
     }
 }

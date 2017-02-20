@@ -52,14 +52,14 @@ public class AirCraft extends PublicTransportation {
     /**
      * Enumeration of the types from AirCraft.
      */
-    private enum Type {
+    public enum Type {
         Helicopter, Airline, Glider, Balloon
     }
     
     /**
      * Enumeration of the types of maintenance.
      */
-    private enum MaintenanceType {
+    public enum MaintenanceType {
         Weekly, Monthly, Yearly
     }
 
