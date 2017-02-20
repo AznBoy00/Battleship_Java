@@ -1,8 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+    Assignment #2
+    Part: Ferry
+    Written by: Kevin Lin - 40002383
+*/
+
 package WaterTransportation;
 
 import InformationDesk.PublicTransportation;
@@ -28,7 +29,7 @@ public class Ferry extends PublicTransportation{
         super();
     }
     
-        public int getBuildYear() {
+    public int getBuildYear() {
         return buildYear;
     }
 

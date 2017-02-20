@@ -1,8 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+    Assignment #2
+    Part: Driver
+    Written by: Kevin Lin - 40002383
+*/
+
 package InformationDesk;
 
 import AirTransportation.*;
@@ -13,6 +14,7 @@ import WaterTransportation.*;
  *
  * @author Kevin
  */
+
 public class DriverApp {
     public static void main (String[] args) {
         PublicTransportation[] pTrans = new PublicTransportation[12];
@@ -35,6 +37,8 @@ public class DriverApp {
             System.out.println(pTrans[i].toString());
         }
         
+        // Prints the toString from each object.
+        
         for (int i = 0; i < 6; i++) {
             if(pTrans[i].equals(pTrans[i+6])) {
                 System.out.println("equal");
@@ -42,6 +46,29 @@ public class DriverApp {
                 System.out.println("not equal");
             }
         }
+        
+        // Check for low and high price of fair ticket and outputs info.
+        
+        double lowestPrice = pTrans[0].getTicketPrice();
+        double highestPrice = pTrans[0].getTicketPrice();
+        int arrayPosLow = 0;           
+        int arrayPosHigh = 0;
+        
+        for (int i = 0; i < pTrans.length; i++) {            
+            if (pTrans[i].getTicketPrice() < lowestPrice) {
+                lowestPrice = pTrans[i].getTicketPrice();
+                arrayPosLow = i;
+            }
+            if (pTrans[i].getTicketPrice() > highestPrice) {
+                highestPrice = pTrans[i].getTicketPrice();
+                arrayPosHigh = i;
+            }
+        }
+        
+        System.out.println("The lowest price transport information:");
+        System.out.println(pTrans[arrayPosLow]);
+        System.out.println("The highest price transport information:");
+        System.out.println(pTrans[arrayPosHigh]);
         
     }
 }
