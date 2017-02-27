@@ -75,14 +75,6 @@ public class AirCraft extends PublicTransportation {
             return false;
         }
         final AirCraft other = (AirCraft) obj;
-        
-        if (Double.doubleToLongBits(this.ticketPrice) != Double.doubleToLongBits(other.ticketPrice)) {
-            return false;
-        }
-        if (this.numOfStops != other.numOfStops) {
-            return false;
-        }
-        
         if (this.aircraftType != other.aircraftType) {
             return false;
         }
@@ -92,8 +84,9 @@ public class AirCraft extends PublicTransportation {
         return true;
     }
 
+    
     @Override
     public String toString() {
-        return "This AirCraft has " + this.numOfStops + " stops, and costs " + this.ticketPrice + "$. The aircraft is a " + this.aircraftType + " and is maintained " + this.maintenanceType + ".";
+        return "This AirCraft has " + this.getNumOfStops() + " stops, and costs " + this.getTicketPrice() + "$. The aircraft is a " + this.aircraftType + " and is maintained " + this.maintenanceType + ".";
     }
 }

@@ -11,8 +11,8 @@ package InformationDesk;
  * @author Kevin
  */
 public class PublicTransportation {
-    protected double ticketPrice;
-    protected int numOfStops;
+    private double ticketPrice;
+    private int numOfStops;
     
     /**
      * Default Constructor

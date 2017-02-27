@@ -7,23 +7,24 @@
 package LandTransportation;
 
 import InformationDesk.PublicTransportation;
+import java.util.Objects;
 
 /**
  *
  * @author Kevin
  */
 public class CityBus extends PublicTransportation {
-    protected long routeNumber;
-    protected int startOperationYear;
-    protected String lineName;
-    protected String driverName;
+    private long routeNumber;
+    private int startOperationYear;
+    private String lineName;
+    private String driverName;
     
     /**
      * Copy Constructor
      * @param cb CityBus Object
      */
     public CityBus(CityBus cb) {
-        super(cb.ticketPrice, cb.numOfStops);
+        super(cb.getTicketPrice(), cb.getNumOfStops());
         this.driverName = cb.getDriverName();
         this.lineName = cb.getLineName();
         this.routeNumber = cb.getRouteNumber();
@@ -120,7 +121,7 @@ public class CityBus extends PublicTransportation {
     
     @Override
     public String toString() {
-        return "This CityBus has " + this.numOfStops + " stops, and costs " + this.ticketPrice + "$. The route number is " + this.routeNumber + ", it's name is " + this.lineName + ", driven by " + this.driverName + " and was born in " + this.startOperationYear + ".";
+        return "This CityBus has " + this.getNumOfStops() + " stops, and costs " + this.getTicketPrice() + "$. The route number is " + this.routeNumber + ", it's name is " + this.lineName + ", driven by " + this.driverName + " and was born in " + this.startOperationYear + ".";
     }
 
     @Override
@@ -135,23 +136,16 @@ public class CityBus extends PublicTransportation {
             return false;
         }
         final CityBus other = (CityBus) obj;
-        
-        if (Double.doubleToLongBits(this.ticketPrice) != Double.doubleToLongBits(other.ticketPrice)) {
-            return false;
-        }
-        if (this.numOfStops != other.numOfStops) {
-            return false;
-        }
         if (this.routeNumber != other.routeNumber) {
             return false;
         }
         if (this.startOperationYear != other.startOperationYear) {
             return false;
         }
-        if (!this.lineName.equals(other.lineName)) {
+        if (!Objects.equals(this.lineName, other.lineName)) {
             return false;
         }
-        if (!this.driverName.equals(other.driverName)) {
+        if (!Objects.equals(this.driverName, other.driverName)) {
             return false;
         }
         return true;

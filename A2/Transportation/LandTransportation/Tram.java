@@ -25,7 +25,7 @@ public class Tram extends CityBus {
      * @param t Tram Object.
      */
     public Tram(Tram t) {
-        super(t.routeNumber, t.startOperationYear, t.lineName, t.driverName, t.ticketPrice, t.numOfStops);
+        super(t.getRouteNumber(), t.getStartOperationYear(), t.getLineName(), t.getDriverName(), t.getTicketPrice(), t.getNumOfStops());
         this.maxSpeed = t.maxSpeed;
     }
 
@@ -62,7 +62,7 @@ public class Tram extends CityBus {
 
     @Override
     public String toString() {
-        return "This Tram has " + this.numOfStops + " stops, and costs " + this.ticketPrice + "$. It’s maximun speed is " + this.maxSpeed + "km/h. The route number is " + this.routeNumber + ", it's name is " + this.lineName + ", driven by " + this.driverName + " and was born in " + this.startOperationYear + ".";
+        return "This Tram has " + this.getNumOfStops() + " stops, and costs " + this.getTicketPrice() + "$. It’s maximun speed is " + this.maxSpeed + "km/h. The route number is " + this.getRouteNumber() + ", it's name is " + this.getLineName() + ", driven by " + this.getDriverName() + " and was born in " + this.getStartOperationYear() + ".";
     }
 
     @Override
@@ -77,25 +77,22 @@ public class Tram extends CityBus {
             return false;
         }
         final Tram other = (Tram) obj;
-        if (Double.doubleToLongBits(this.ticketPrice) != Double.doubleToLongBits(other.ticketPrice)) {
+        if (Double.doubleToLongBits(this.getTicketPrice()) != Double.doubleToLongBits(other.getTicketPrice())) {
             return false;
         }
-        if (this.numOfStops != other.numOfStops) {
+        if (this.getNumOfStops() != other.getNumOfStops()) {
             return false;
         }
-        if (this.numOfStops != other.numOfStops) {
+        if (this.getRouteNumber() != other.getRouteNumber()) {
             return false;
         }
-        if (this.routeNumber != other.routeNumber) {
+        if (this.getStartOperationYear() != other.getStartOperationYear()) {
             return false;
         }
-        if (this.startOperationYear != other.startOperationYear) {
+        if (!this.getLineName().equals(other.getLineName())) {
             return false;
         }
-        if (!this.lineName.equals(other.lineName)) {
-            return false;
-        }
-        if (!this.driverName.equals(other.driverName)) {
+        if (!this.getDriverName().equals(other.getDriverName())) {
             return false;
         }
         if (this.maxSpeed != other.maxSpeed) {

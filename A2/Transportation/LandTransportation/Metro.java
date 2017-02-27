@@ -28,7 +28,7 @@ public class Metro extends CityBus {
      * @param m Metro Object
      */
     public Metro(Metro m) {
-        super(m.routeNumber, m.startOperationYear, m.lineName, m.driverName, m.ticketPrice, m.numOfStops);
+        super(m.getRouteNumber(), m.getStartOperationYear(), m.getLineName(), m.getDriverName(), m.getTicketPrice(), m.getNumOfStops());
         this.numOfVehicles = m.numOfVehicles;
         this.city = m.city;
     }
@@ -84,7 +84,7 @@ public class Metro extends CityBus {
     
     @Override
     public String toString() {
-        return "This Metro has " + this.numOfStops + " stops, and costs " + this.ticketPrice + "$. It is located in " + this.city + ", and contains " + this.numOfVehicles + " vehicles. The route number is " + this.routeNumber + ", it's name is " + this.lineName + ", driven by " + this.driverName + " and was born in " + this.startOperationYear + ".";
+        return "This Metro has " + this.getNumOfStops() + " stops, and costs " + this.getTicketPrice() + "$. It is located in " + this.city + ", and contains " + this.numOfVehicles + " vehicles. The route number is " + this.getRouteNumber() + ", it's name is " + this.getLineName() + ", driven by " + this.getDriverName() + " and was born in " + this.getStartOperationYear() + ".";
     }
 
     @Override
@@ -99,28 +99,25 @@ public class Metro extends CityBus {
             return false;
         }
         final Metro other = (Metro) obj;
-        if (Double.doubleToLongBits(this.ticketPrice) != Double.doubleToLongBits(other.ticketPrice)) {
+        if (Double.doubleToLongBits(this.getTicketPrice()) != Double.doubleToLongBits(other.getTicketPrice())) {
             return false;
         }
-        if (this.numOfStops != other.numOfStops) {
+        if (this.getNumOfStops() != other.getNumOfStops()) {
             return false;
         }
-        if (this.numOfStops != other.numOfStops) {
+        if (this.getRouteNumber() != other.getRouteNumber()) {
             return false;
         }
-        if (this.routeNumber != other.routeNumber) {
+        if (this.getStartOperationYear() != other.getStartOperationYear()) {
             return false;
         }
-        if (this.startOperationYear != other.startOperationYear) {
+        if (!this.getLineName().equals(other.getLineName())) {
             return false;
         }
-        if (!this.lineName.equals(other.lineName)) {
+        if (!this.getDriverName().equals(other.getDriverName())) {
             return false;
         }
-        if (!this.driverName.equals(other.driverName)) {
-            return false;
-        }
-        if (this.numOfVehicles != other.numOfVehicles) {
+        if (this.getNumOfVehicles() != other.getNumOfVehicles()) {
             return false;
         }
         if (!this.city.equals(other.city)) {

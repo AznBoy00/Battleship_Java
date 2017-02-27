@@ -16,7 +16,7 @@ public class Ferry extends PublicTransportation{
     private int buildYear;
     
     public Ferry(Ferry f) {
-        super(f.ticketPrice, f.numOfStops);
+        super(f.getTicketPrice(), f.getNumOfStops());
         this.buildYear = f.buildYear;
     }
 
@@ -39,7 +39,7 @@ public class Ferry extends PublicTransportation{
     
     @Override
     public String toString() {
-        return "This Ferry has " + this.numOfStops + " stops, and costs " + this.ticketPrice + "$. The ferry was built in " + this.buildYear + ".";
+        return "This Ferry has " + this.getNumOfStops() + " stops, and costs " + this.getTicketPrice() + "$. The ferry was built in " + this.buildYear + ".";
     }
 
     @Override
@@ -55,10 +55,10 @@ public class Ferry extends PublicTransportation{
         }
         final Ferry other = (Ferry) obj;
         
-        if (Double.doubleToLongBits(this.ticketPrice) != Double.doubleToLongBits(other.ticketPrice)) {
+        if (Double.doubleToLongBits(this.getTicketPrice()) != Double.doubleToLongBits(other.getTicketPrice())) {
             return false;
         }
-        if (this.numOfStops != other.numOfStops) {
+        if (this.getNumOfStops() != other.getNumOfStops()) {
             return false;
         }
         if (this.buildYear != other.buildYear) {
