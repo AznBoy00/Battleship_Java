@@ -78,7 +78,7 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" + "price=" + price + ", pageNumber=" + pageNumber + ", year=" + year + ", author=" + author + '}';
+        return isbn + " " + title + " " + year + " " + author + " " + price + " " + pageNumber; 
     }
 
     @Override

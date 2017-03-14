@@ -35,22 +35,29 @@ public class BookInventory1{
         fileName = input;
         f = new File(fileName);
         
-        try {
-            if (f.exists())
-                throw new FileAlreadyExistsException(fileName);
-            else
-                fileExists = false;
-        } catch (FileAlreadyExistsException e) {
-            fileExists = true;
-            System.out.println("A file with the name " + f.getName() + " already exists.");
-            System.out.println("The file already has a size of: " + f.length() + " bytes.\n");
-            System.out.print("Please enter another file name to create: ");
-            fileName = k.next();
-            f = new File(fileName);
+        while(fileExists) {
+            try {
+                if (f.exists())
+                    throw new FileAlreadyExistsException(fileName);
+                else
+                    fileExists = false;
+            } catch (FileAlreadyExistsException e) {
+                fileExists = true;
+                System.out.println("A file with the name " + f.getName() + " already exists.");
+                System.out.println("The file already has a size of: " + f.length() + " bytes.\n");
+                System.out.print("Please enter another file name to create: ");
+                fileName = k.next();
+                f = new File(fileName);
+            }
         }
         
         try {
             fis = new FileInputStream(FIS_NAME);
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found.\nProgram shutting down.");
+            System.exit(0);
+        }
+        try {
             fos = new FileOutputStream(fileName);
         } catch (FileNotFoundException e) {
             System.out.println("File not found.\nProgram shutting down.");
@@ -58,7 +65,7 @@ public class BookInventory1{
         }
         
         try {
-            fixInventory("a.txt", fileName);
+            fixInventory("Initial_Book_Info.txt", fileName);
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -79,27 +86,26 @@ public class BookInventory1{
             System.out.println("Exception caught while reading: " + fileName + "\nProgram shutting down.");
             System.exit(0);
         }
-        
-        
-        
     }
     
     private static int getRecordCount(String fis) {
         BufferedReader br = null;
-        int recordCount = 0;
+        int recordCount;
+        recordCount = 0;
         String lineContent = "";
+        
         try {
             br = new BufferedReader(new FileReader(fis));
         } catch(FileNotFoundException e) {
             System.out.println("File not found.\nProgram shutting down.");
             System.exit(0);
-        }
-        
-        try {
+        } try {
             while (lineContent != null) {
                 lineContent = br.readLine();
-                if (lineContent != null && !lineContent.isEmpty())
+                //System.out.println(lineContent); For testing purpose.
+                if (lineContent != null && !lineContent.isEmpty()) {
                     recordCount++;
+                }
             }
         } catch (IOException e) {
             System.out.println("Error while reading file.\nProgram shutting down.");
@@ -109,10 +115,18 @@ public class BookInventory1{
     }
     
     private static void fixInventory(String fis, String fos) throws IOException{
-        bkArr = new Book[getRecordCount(fis)];
-        Scanner sc = null;
+        int recordNumber = getRecordCount(fis);
+        bkArr = new Book[recordNumber];
+        Scanner sc = new Scanner(System.in);
         PrintWriter pw = null;
-        System.out.println("\nThe file has " + bkArr.length + " records.");
+        System.out.println("\nThe file has " + recordNumber + " records.");
+        
+        try {
+            sc = new Scanner(new FileInputStream(fis));
+        } catch (FileNotFoundException e) {
+            System.out.println("FileNotFoundException caught.\nProgram shutting down.");
+            System.exit(0);
+        }
         
         long isbn;
         String title;
@@ -146,7 +160,7 @@ public class BookInventory1{
             pw.println(bkArr[i]);
         pw.close();
         
-        System.out.println("PrintWriting successful.");
+        System.out.println("PrintWriting successful.\n");
     }
     
     private static void displayFileContents(String fis) throws IOException{
@@ -185,7 +199,7 @@ public class BookInventory1{
                     boolean duplicatedISBN = true;
                     
                     while (duplicatedISBN) {
-                        System.out.print("Duplicate ISBN " + bkArr[i].getISBN() + " detected in record #" + (++j) + ". Please enter the correct ISBN: ");
+                        System.out.print("Duplicate ISBN " + bkArr[i].getISBN() + " detected in record #" + (j+1) + ". Please enter the correct ISBN: ");
                         try {
                             newISBN = input.nextLong();
                             try {
