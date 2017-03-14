@@ -6,9 +6,10 @@
 package Part1;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Scanner;
+import java.io.*;
+import java.nio.file.FileAlreadyExistsException;
 
 /**
  *
@@ -18,21 +19,51 @@ import java.util.Scanner;
 public class BookInventory1{
     
     private static Book bkArr[];
-    private static final String BOOK_INFO_FILENAME = "Initial_BookInfo.txt";
     
     public static void main(String[] args) {
-        Scanner i = new Scanner(System.in);
-        String fileName;
-        FileOutputStream fos;
-        
-        try {
-            fos = new FileOutputStream(BOOK_INFO_FILENAME);
-        } catch (FileNotFoundException e) {
-            
-        }
+        final String FIS_NAME = "Initial_BookInfo.txt";
+        Scanner k = new Scanner(System.in);
+        String fileName, input = "";
+        FileOutputStream fos = null;
+        FileInputStream fis = null;
+        File f;
+        boolean fileExists = true;
         
         System.out.print("Please enter the name of output file, which will have the correct information: ");
-        fileName = i.next();
+        input = k.next();
+        fileName = input;
+        f = new File(fileName);
+        
+        try {
+            if (f.exists())
+                throw new FileAlreadyExistsException(fileName);
+            else
+                fileExists = false;
+        } catch (FileAlreadyExistsException e) {
+            fileExists = true;
+            System.out.println("A file with the name " + f.getName() + " already exists.");
+            System.out.println("The file already has a size of: " + f.length() + " bytes.\n");
+            System.out.print("Please enter another file name to create: ");
+            fileName = k.next();
+            f = new File(fileName);
+        }
+        
+        try {
+            fis = new FileInputStream(FIS_NAME);
+            fos = new FileOutputStream(fileName);
+        } catch (FileNotFoundException e) {
+            System.out.println("File: " + FIS_NAME + " not found.\nProgram shutting down.");
+            System.exit(0);
+        }
+        
+        
+        
+        
+        
+        System.out.println("Here are the contents of file Initial_Book_Infor.txt AFTER copying operation:");
+        System.out.println("=============================================================================");
+        System.out.println("Here are the contents of file Corrected_Book_Info.txt:");
+        System.out.println("======================================================");
     }
     
     //Check for duplication etc, fix the original txt file into an unbugged one.
@@ -41,9 +72,6 @@ public class BookInventory1{
     }
     
     private static void displayFileContents(FileInputStream fis) {
-        System.out.println("Here are the contents of file Initial_Book_Infor.txt AFTER copying operation:");
-        System.out.println("=============================================================================");
-        System.out.println("Here are the contents of file Corrected_Book_Info.txt:");
-        System.out.println("======================================================");
+        
     }
 }
