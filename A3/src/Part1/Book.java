@@ -12,10 +12,29 @@ import java.util.Objects;
  * @author Kevin Lin - @AznBoy00
  */
 public class Book {
-    private long ISBN;
-    private double price;
-    private int pageNumber, year;
+    private long isbn;
+    private String title;
+    private int year;
     private String author;
+    private double price;
+    private int pageNumber;
+
+    public Book(long isbn, String title, int year, String author, double price, int pageNumber) {
+        this.isbn = isbn;
+        this.title = title;
+        this.year = year;
+        this.author = author;
+        this.price = price;
+        this.pageNumber = pageNumber;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public int getYear() {
         return year;
@@ -34,11 +53,11 @@ public class Book {
     }
 
     public long getISBN() {
-        return ISBN;
+        return isbn;
     }
 
     public void setISBN(long ISBN) {
-        this.ISBN = ISBN;
+        this.isbn = ISBN;
     }
 
     public double getPrice() {
@@ -80,7 +99,7 @@ public class Book {
             return false;
         }
         final Book other = (Book) obj;
-        if (this.ISBN != other.ISBN) {
+        if (this.isbn != other.isbn) {
             return false;
         }
         if (Double.doubleToLongBits(this.price) != Double.doubleToLongBits(other.price)) {

@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.util.Scanner;
 import java.io.*;
 import java.nio.file.FileAlreadyExistsException;
+import java.util.InputMismatchException;
 
 /**
  *
@@ -56,18 +57,34 @@ public class BookInventory1{
             System.exit(0);
         }
         
+        try {
+            fixInventory("a.txt", fileName);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        try {
+            System.out.println("Here are the contents of file " + FIS_NAME + " AFTER copying operation:");
+            System.out.println("=============================================================================");
+            displayFileContents(FIS_NAME);
+        } catch (IOException e) {
+            System.out.println("Exception caught while reading: " + fileName + "\nProgram shutting down.");
+            System.exit(0);
+        }
+        
+        try {
+            System.out.println("Here are the contents of file " + fileName + ":");
+            System.out.println("======================================================");
+            displayFileContents(fileName);
+        } catch (IOException e) {
+            System.out.println("Exception caught while reading: " + fileName + "\nProgram shutting down.");
+            System.exit(0);
+        }
         
         
         
-        
-        System.out.println("Here are the contents of file Initial_Book_Info.txt AFTER copying operation:");
-        System.out.println("=============================================================================");
-        System.out.println("Here are the contents of file Corrected_Book_Info.txt:");
-        System.out.println("======================================================");
     }
     
-    //Check for duplication etc, fix the original txt file into an unbugged one.
-    private static void fixInventory(String fis, String fos) throws IOException{
+    private static int getRecordCount(String fis) {
         BufferedReader br = null;
         int recordCount = 0;
         String lineContent = "";
@@ -88,11 +105,105 @@ public class BookInventory1{
             System.out.println("Error while reading file.\nProgram shutting down.");
             System.exit(0);
         }
-        
-        bkArr = new Book[recordCount];
+        return recordCount;
     }
     
-    private static void displayFileContents(String fis) {
+    private static void fixInventory(String fis, String fos) throws IOException{
+        bkArr = new Book[getRecordCount(fis)];
+        Scanner sc = null;
+        PrintWriter pw = null;
+        System.out.println("\nThe file has " + bkArr.length + " records.");
         
+        long isbn;
+        String title;
+        int year;
+        String author;
+        double price;
+        int pageNumber;
+        
+        for (int i = 0; i < bkArr.length; i++) {
+            isbn = sc.nextLong();
+            title = sc.next();
+            year = sc.nextInt();
+            author = sc.next();
+            price = sc.nextDouble();
+            pageNumber = sc.nextInt();
+            
+            Book b = new Book(isbn, title, year, author, price, pageNumber);
+            bkArr[i] = b;
+        }
+        
+        checkDuplicateISBN();
+        
+        //Print the corrected duplicated ISBNs onto the new .txt file.
+        try {
+            pw = new PrintWriter(new FileOutputStream(fos));
+        } catch (FileNotFoundException e) {
+            System.out.println("Could not open or create the file :" + fos + ". \nProgram shutting down.");
+            System.exit(0);
+        }
+        for (int i = 0; i < bkArr.length; i++)
+            pw.println(bkArr[i]);
+        pw.close();
+        
+        System.out.println("PrintWriting successful.");
+    }
+    
+    private static void displayFileContents(String fis) throws IOException{
+        BufferedReader br = null;
+        String s = "", lineContent = "";
+        
+        try {
+            br = new BufferedReader(new FileReader(fis));
+        } catch (FileNotFoundException e) {
+            System.out.println("FileNotFoundException caught.\nProgram shutting down.");
+            System.exit(0);
+        }
+        while(lineContent != null) {
+            lineContent = br.readLine();
+            if (lineContent != null)
+                s += lineContent + "\n"; //\n to skip to next line.
+        }
+        br.close();
+        System.out.println(s + "\n");
+    }
+    
+    private static void checkISBNInput(long newISBN) throws DuplicateISBNException {
+        for (int i = 0; i < bkArr.length; i++) {
+            if (bkArr[i].getISBN() == newISBN)
+                throw new DuplicateISBNException(i);
+        }
+    }
+    
+    private static void checkDuplicateISBN(){
+        Scanner input = new Scanner(System.in);
+                
+        for (int i = 0; i < bkArr.length; i++) {
+            for (int j = 0; j < bkArr.length; j++) {
+                if (i != j && bkArr[j].getISBN() == bkArr[i].getISBN()) {
+                    long newISBN;
+                    boolean duplicatedISBN = true;
+                    
+                    while (duplicatedISBN) {
+                        System.out.print("Duplicate ISBN " + bkArr[i].getISBN() + " detected in record #" + (++j) + ". Please enter the correct ISBN: ");
+                        try {
+                            newISBN = input.nextLong();
+                            try {
+                                checkISBNInput(newISBN);
+                                bkArr[j].setISBN(newISBN);
+                                duplicatedISBN = false;
+                            } catch (DuplicateISBNException e) {
+                                duplicatedISBN = true;
+                                System.out.println("Attempt to duplicate entry to a previous record.\nInitial appearance of ISBN " + newISBN + " was found at record #: " + (e.getDuplicatedIndex()+1));
+                            }
+                        } catch (InputMismatchException e){
+                            duplicatedISBN = true;
+                            System.out.println("You didn't enter a valid ISBN.");
+                        }                            
+                    }
+                }
+            }
+        }
+        input.close();
     }
 }
