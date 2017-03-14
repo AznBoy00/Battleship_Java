@@ -21,7 +21,7 @@ public class BookInventory1{
     private static Book bkArr[];
     
     public static void main(String[] args) {
-        final String FIS_NAME = "Initial_BookInfo.txt";
+        final String FIS_NAME = "Initial_Book_Info.txt";
         Scanner k = new Scanner(System.in);
         String fileName, input = "";
         FileOutputStream fos = null;
@@ -52,7 +52,7 @@ public class BookInventory1{
             fis = new FileInputStream(FIS_NAME);
             fos = new FileOutputStream(fileName);
         } catch (FileNotFoundException e) {
-            System.out.println("File: " + FIS_NAME + " not found.\nProgram shutting down.");
+            System.out.println("File not found.\nProgram shutting down.");
             System.exit(0);
         }
         
@@ -60,18 +60,39 @@ public class BookInventory1{
         
         
         
-        System.out.println("Here are the contents of file Initial_Book_Infor.txt AFTER copying operation:");
+        System.out.println("Here are the contents of file Initial_Book_Info.txt AFTER copying operation:");
         System.out.println("=============================================================================");
         System.out.println("Here are the contents of file Corrected_Book_Info.txt:");
         System.out.println("======================================================");
     }
     
     //Check for duplication etc, fix the original txt file into an unbugged one.
-    private static void fixInventory(FileInputStream fis, FileOutputStream fos) {
+    private static void fixInventory(String fis, String fos) throws IOException{
+        BufferedReader br = null;
+        int recordCount = 0;
+        String lineContent = "";
+        try {
+            br = new BufferedReader(new FileReader(fis));
+        } catch(FileNotFoundException e) {
+            System.out.println("File not found.\nProgram shutting down.");
+            System.exit(0);
+        }
         
+        try {
+            while (lineContent != null) {
+                lineContent = br.readLine();
+                if (lineContent != null && !lineContent.isEmpty())
+                    recordCount++;
+            }
+        } catch (IOException e) {
+            System.out.println("Error while reading file.\nProgram shutting down.");
+            System.exit(0);
+        }
+        
+        bkArr = new Book[recordCount];
     }
     
-    private static void displayFileContents(FileInputStream fis) {
+    private static void displayFileContents(String fis) {
         
     }
 }
