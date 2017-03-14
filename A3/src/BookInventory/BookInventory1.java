@@ -3,7 +3,7 @@
     Part: 
     Written by: Kevin Lin - 40002383
  */
-package Part1;
+package BookInventory;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

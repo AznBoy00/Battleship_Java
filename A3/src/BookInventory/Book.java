@@ -3,7 +3,7 @@
     Part 1 - Book.java
     Written by: Kevin Lin - 40002383
  */
-package Part1;
+package BookInventory;
 
 import java.util.Objects;
 
