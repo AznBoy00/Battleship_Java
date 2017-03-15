@@ -79,6 +79,15 @@ public class BookInventory2 {
             endIndex = -1;
         }
         
+        if (startIndex < 0 || startIndex >= bkArr.length) {
+            startIndex = 0;
+            System.out.println("Start Index set to 0 due to invalid input.");
+        }
+        if (endIndex < 0 || endIndex > bkArr.length) {
+            endIndex = bkArr.length;
+            System.out.println("End Index set to max index value due to invalid input.");
+        }
+        
         if (startIndex < endIndex) {
             searchISBNPointer = binaryBookSearch(bkArr, startIndex, endIndex, searchISBN);
         } else {
@@ -108,6 +117,15 @@ public class BookInventory2 {
             System.out.println("InputMismatchException caught.");
         }
         
+        if (startIndex < 0 || startIndex >= bkArr.length) {
+            startIndex = 0;
+            System.out.println("Start Index set to 0 due to invalid input.");
+        }
+        if (endIndex < 0 || endIndex > bkArr.length) {
+            endIndex = bkArr.length;
+            System.out.println("End Index set to max index value due to invalid input.");
+        }
+        
         if (startIndex < endIndex) {
             searchISBNPointer = sequentialBookSearch(bkArr, startIndex, endIndex, searchISBN);
         } else {
@@ -129,6 +147,8 @@ public class BookInventory2 {
         //TESTING PURPOSE
         //System.out.println("OUTPUT FOS_DAT_NAME");
         //readBinary(FOS_DAT_NAME);
+        
+        System.out.println("Program execution done.");
     }
     
     // START OF BINARY BOOK SEARCH METHODS
