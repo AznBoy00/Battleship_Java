@@ -13,7 +13,7 @@ import java.nio.file.FileAlreadyExistsException;
 import java.util.InputMismatchException;
 
 /**
- *
+ *  Part 1 of A3
  * @author Kevin Lin - @AznBoy00
  */
 
@@ -182,6 +182,11 @@ public class BookInventory1{
         System.out.println(s + "\n");
     }
     
+    /**
+     * Check for ISBN input by the user.
+     * @param newISBN ISBN input.
+     * @throws DuplicateISBNException 
+     */
     private static void checkISBNInput(long newISBN) throws DuplicateISBNException {
         for (int i = 0; i < bkArr.length; i++) {
             if (bkArr[i].getISBN() == newISBN)

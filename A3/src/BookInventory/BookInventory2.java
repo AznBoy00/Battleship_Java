@@ -6,33 +6,40 @@
 package BookInventory;
 
 import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
- *
+ *  Part 1 of A3
  * @author Kevin Lin - @AznBoy00
  */
 public class BookInventory2 {
     
     private static Book bkArr[];
+    private final static String FIS_NAME = "Sorted_Book_Info.txt";
+    private final static String FOS_DAT_NAME = "Books.dat";
     
     public static void main(String[] args) {
-        final String FIS_NAME = "Sorted_Book_Info.txt";
+        
         Scanner k = new Scanner(System.in);
         String fileName, input = "";
         FileOutputStream fos = null;
         FileInputStream fis = null;
         File f;
         boolean fileExists = true;
-        int startIndex, endIndex;
+        // Binary search variables
+        long searchISBN = -1;
+        int searchISBNPointer, startIndex = 0, endIndex = -1;
         
         //Opening Streams
         try {
@@ -42,9 +49,11 @@ public class BookInventory2 {
             System.exit(0);
         }
         
+        // START OF ADDING DATA TO ARRAYS ETC.
+        
         addRecords(FIS_NAME);
         try {
-            System.out.println("Here are the contents of file " + FIS_NAME + ":");
+            System.out.println("\n\nHere are the contents of file " + FIS_NAME + ":");
             System.out.println("===============================================");
             displayFileContents(FIS_NAME);
         } catch (IOException e) {
@@ -52,12 +61,132 @@ public class BookInventory2 {
             System.exit(0);
         }
         addBookArray(FIS_NAME);
-        // END OF ADD BOOK STUFF
+        
+        // START BINARY SEARCH
+        try {
+            System.out.println("\n==BINARY SEARCH==");
+            System.out.print("Enter your ISBN to search: ");
+            searchISBN = k.nextLong();
+            System.out.print("Please enter your start index (inclusive value): ");
+            startIndex = k.nextInt();
+            System.out.print("Please enter your end index (exclusive value): ");
+            endIndex = k.nextInt();
+        } catch(InputMismatchException e) {
+            System.out.println("InputMismatchException caught.");
+            startIndex = 0;
+            endIndex = -1;
+        }
+        
+        if (startIndex < endIndex) {
+            searchISBNPointer = binaryBookSearch(bkArr, startIndex, endIndex, searchISBN);
+        } else {
+            System.out.println("Invalid search index range.");
+            searchISBNPointer = -1;
+        }
+        
+        if (searchISBNPointer != -1) {
+            System.out.println("The entered ISBN was found at index #" + searchISBNPointer);
+        } else {
+            System.out.println("The ISBN was not found.");
+            startIndex = 0;
+            endIndex = -1;
+        }
+        
+        // START OF SEQUENTIAL SEARCH
+        
+        try {
+            System.out.println("\n==SEQUENTIAL SEARCH==");
+            System.out.print("Enter your ISBN to search: ");
+            searchISBN = k.nextLong();
+            System.out.print("Please enter your start index (inclusive value): ");
+            startIndex = k.nextInt();
+            System.out.print("Please enter your end index (exclusive value): ");
+            endIndex = k.nextInt();
+        } catch(InputMismatchException e) {
+            System.out.println("InputMismatchException caught.");
+        }
+        
+        if (startIndex < endIndex) {
+            searchISBNPointer = sequentialBookSearch(bkArr, startIndex, endIndex, searchISBN);
+        } else {
+            System.out.println("Invalid search index range.");
+            searchISBNPointer = -1;
+        }
+        
+        if (searchISBNPointer != -1) {
+            System.out.println("The entered ISBN was found at index #" + searchISBNPointer);
+        } else {
+            System.out.println("The ISBN was not found.");
+        }
+        
+        // WRITE BINARY
+        
+        System.out.println("\nNow, let's write the book array to a binary file as: " + FOS_DAT_NAME + " [...]");
+        writeBookArrayToBinary(FOS_DAT_NAME);
+        
+        //TESTING PURPOSE
+        //System.out.println("OUTPUT FOS_DAT_NAME");
+        //readBinary(FOS_DAT_NAME);
     }
     
-    //
+    // START OF BINARY BOOK SEARCH METHODS
+    
+    /**
+     * Search a book using binary search.
+     * @param b Book object.
+     * @param startIndex start index.
+     * @param endIndex end index.
+     * @param searchISBN ISBN.
+     * @return search pointer.
+     */
+    private static int binaryBookSearch(Book[] b, int startIndex, int endIndex, long searchISBN) {
+        System.out.println("Started to binary search for " + searchISBN + " between " + startIndex + " to " + endIndex + ".");
+        int iterationNumber = 1;
+        int pointer = (endIndex + startIndex) /2;
+        //starting the pointer at the middle of startIndex and endIndex is an iteration by itself
+        
+        while (b[pointer].getISBN() != searchISBN && iterationNumber <= getRecordCount(FIS_NAME)) {
+            iterationNumber++;
+            if (b[pointer].getISBN() > searchISBN) {
+                pointer = (pointer + startIndex) /2;
+            } else {
+                pointer = (pointer + endIndex) /2;
+            }
+        }
+        if (iterationNumber > getRecordCount(FIS_NAME)) {
+            System.out.println("ISBN not found.");
+            return -1;
+        } else {
+            System.out.println("Total Iterations: " + iterationNumber);
+            return pointer;
+        }
+    }
+    
+    /**
+     * Search a book using sequential search.
+     * @param b Book object.
+     * @param startIndex start index.
+     * @param endIndex end index.
+     * @param searchISBN ISBN.
+     * @return search pointer.
+     */
+    private static int sequentialBookSearch(Book[] b, int startIndex, int endIndex, long searchISBN) {
+        int interation = 0;
+        for (int i = startIndex; i < endIndex; i++) {
+            interation++;
+            if (b[i].getISBN() == searchISBN) {
+                return i;
+            }
+        }
+        return -1;
+    }
     
     // START OF ADD RECORD STUFF
+    
+    /**
+     * Add records to the file.
+     * @param fis file.
+     */
     private static void addRecords(String fis) {
         Scanner kb = new Scanner(System.in);
         String input = "";
@@ -68,12 +197,17 @@ public class BookInventory2 {
                 System.out.println("Book entered was registered successfully.");
                 addBook(newBook, fis);
             }
-            System.out.print("Would you like to add another book? (Y/N || YES/NO)");
+            System.out.print("Would you like to add another book? (Y/YES otherwise any key for NO)");
             input = kb.next().toUpperCase();
             
         } while(input == "Y" || input == "YES");
     }
     
+    /**
+     * Prints the added book to the file.
+     * @param b Book object.
+     * @param fis file.
+     */
     private static void addBook(Book b, String fis) {
         PrintWriter pw = null;
         
@@ -88,6 +222,10 @@ public class BookInventory2 {
         pw.close();
     }
     
+    /**
+     * Add newBook to bkArr[].
+     * @param fis file.
+     */
     private static void addBookArray(String fis) {
         Scanner sc = null;
         int recordCount = getRecordCount(fis);
@@ -120,6 +258,12 @@ public class BookInventory2 {
         }
     }
     
+    /**
+     * Check for valid ISBN.
+     * @param fis file.
+     * @param ISBNinput input.
+     * @return boolean for valid ISBN.
+     */
     private static boolean checkISBN(String fis, long ISBNinput) {
         int recordCount = getRecordCount(fis);
         Scanner sc = null;
@@ -142,6 +286,12 @@ public class BookInventory2 {
         }
     }
     
+    /**
+     * Menu prompt for the user to input the data for the new book.
+     * @param fis file.
+     * @param kb Scanner input.
+     * @return Book object.
+     */
     private static Book inputBookInfo(String fis, Scanner kb) {
         long isbn;
         String title;
@@ -151,19 +301,19 @@ public class BookInventory2 {
         int pageNumber;
         
         try {
-            System.out.print("\nPlease enter the ISBN of the Book you wish to add to: " + fis + ": ");
+            System.out.print("Please enter the ISBN of the Book you wish to add to: " + fis + ": ");
             isbn = kb.nextLong();
             if (!checkISBN(fis, isbn))
                 throw new InputMismatchException();
-            System.out.print("Please enter its book title (Use _ for spaces):");
+            System.out.print("Please enter its book title (Use _ for spaces): ");
             title = kb.next();
-            System.out.print("Please enter its print year:");
+            System.out.print("Please enter its print year: ");
             year = kb.nextInt();
-            System.out.print("Please enter the author's name (Use _ for spaces):");
+            System.out.print("Please enter the author's name (Use _ for spaces): ");
             author = kb.next();
-            System.out.print("Please enter its price:");
+            System.out.print("Please enter its price: ");
             price = kb.nextDouble();
-            System.out.println("Please enter its page number count:");
+            System.out.print("Please enter its page number count: ");
             pageNumber = kb.nextInt();
 
             Book b = new Book(isbn, title, year, author, price, pageNumber);
@@ -177,12 +327,68 @@ public class BookInventory2 {
     
     // END OF ADD BOOK STUFF
     
-    private static void binaryBookSearch(Book[] b, int startIndex, int endIndex, long ISBN) {
-        int iterationNumber;
+    /**
+     * Writes the FileOutputStream to a binary file.
+     * @param fos file.
+     */
+    private static void writeBookArrayToBinary(String fos) {
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(new FileOutputStream(fos));
+            for (int i = 0; i < bkArr.length; i++) {
+                oos.writeLong(bkArr[i].getISBN());
+                oos.writeUTF(bkArr[i].getTitle());
+                oos.writeInt(bkArr[i].getYear());
+                oos.writeUTF(bkArr[i].getAuthor());
+                oos.writeDouble(bkArr[i].getPrice());
+                oos.writeInt(bkArr[i].getPageNumber());
+            }
+            oos.close();
+            System.out.println("Binary writing done.");
+        } catch(IOException e) {
+            System.out.println("IOException caught.\nProgram shutting down.");
+            System.exit(0);
+        }
     }
     
-    private static void sequentialBookSearch(Book[] b, int startIndex, int endIndex, long ISBN) {
-        
+    // READ BINARY FILE (TESTING PURPOSE)
+    /**
+     * Read from an input binary file.
+     * @param fis 
+     */
+    public static void readBinary(String fis) {
+        ObjectInputStream ois = null;
+        long isbn;
+        String title;
+        int year;
+        String author;
+        double price;
+        int pageNumber;
+
+        try {
+            ois = new ObjectInputStream(new FileInputStream(fis));
+            try {
+                while(true) {
+                    isbn = ois.readLong();
+                    title = ois.readUTF();
+                    year = ois.readInt();
+                    author = ois.readUTF();
+                    price = ois.readDouble();
+                    pageNumber = ois.readInt();
+                    Book b = new Book(isbn, title, year, author, price, pageNumber);
+                    System.out.println(b);
+                }
+            } catch(EOFException e) {
+                System.out.println("\nReading of " + fis + " has been completed.");
+            }
+            ois.close();
+        } catch(FileNotFoundException e) {
+            System.out.println("IOExceptiion caught.\nProgram shutting down.");
+            System.exit(0);	
+        } catch(IOException e) {
+            System.out.println("IOExceptiion caught.\nProgram shutting down.");
+            System.exit(0);			
+        }
     }
     
     // Re-used methods from Part 1
