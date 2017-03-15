@@ -74,7 +74,7 @@ public class BookInventory1{
             System.out.println("=============================================================================");
             displayFileContents(FIS_NAME);
         } catch (IOException e) {
-            System.out.println("Exception caught while reading: " + fileName + "\nProgram shutting down.");
+            System.out.println("Exception caught while reading: " + FIS_NAME + "\nProgram shutting down.");
             System.exit(0);
         }
         
@@ -115,11 +115,11 @@ public class BookInventory1{
     }
     
     private static void fixInventory(String fis, String fos) throws IOException{
-        int recordNumber = getRecordCount(fis);
-        bkArr = new Book[recordNumber];
+        int recordCount = getRecordCount(fis);
+        bkArr = new Book[recordCount];
         Scanner sc = new Scanner(System.in);
         PrintWriter pw = null;
-        System.out.println("\nThe file has " + recordNumber + " records.");
+        System.out.println("\nThe file has " + recordCount + " records.");
         
         try {
             sc = new Scanner(new FileInputStream(fis));
