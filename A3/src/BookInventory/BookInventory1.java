@@ -1,6 +1,6 @@
 /*
     Assignment #3
-    Part: 
+    Part 2 - BookInventory1.java
     Written by: Kevin Lin - 40002383
  */
 package BookInventory;
@@ -14,6 +14,7 @@ import java.util.InputMismatchException;
 
 /**
  *  Part 1 of A3
+ * This first part will ask the user to input a file name to output a fixed book inventory listing with proper ISBN IDs.
  * @author Kevin Lin - @AznBoy00
  */
 
@@ -88,6 +89,11 @@ public class BookInventory1{
         }
     }
     
+    /**
+     * Get the number of records inside the file.
+     * @param fis file.
+     * @return number of lines of data from the input file.
+     */
     private static int getRecordCount(String fis) {
         BufferedReader br = null;
         int recordCount;
@@ -114,6 +120,12 @@ public class BookInventory1{
         return recordCount;
     }
     
+    /**
+     * Method that fixes the inventory and makes sure no IDs are in conflict etc.
+     * @param fis file input.
+     * @param fos file output.
+     * @throws IOException 
+     */
     private static void fixInventory(String fis, String fos) throws IOException{
         int recordCount = getRecordCount(fis);
         bkArr = new Book[recordCount];
@@ -163,6 +175,11 @@ public class BookInventory1{
         System.out.println("PrintWriting successful.\n");
     }
     
+    /**
+     * Display the content of the input file.
+     * @param fis file.
+     * @throws IOException 
+     */
     private static void displayFileContents(String fis) throws IOException{
         BufferedReader br = null;
         String s = "", lineContent = "";
@@ -194,6 +211,9 @@ public class BookInventory1{
         }
     }
     
+    /**
+     * Checks for duplicated ISBN(s).
+     */
     private static void checkDuplicateISBN(){
         Scanner input = new Scanner(System.in);
                 

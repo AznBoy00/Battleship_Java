@@ -21,6 +21,8 @@ import java.util.Scanner;
 
 /**
  *  Part 1 of A3
+ * This part of the program will prompt the user to register addition books to the pre-sorted inventory, it will also let the user search with 2 types of searching methods (Binary and Sequential).
+ * After, it will write the new inventory to a binary file so the program can reuse it later on without reading a text file.
  * @author Kevin Lin - @AznBoy00
  */
 public class BookInventory2 {
@@ -354,7 +356,7 @@ public class BookInventory2 {
     // READ BINARY FILE (TESTING PURPOSE)
     /**
      * Read from an input binary file.
-     * @param fis 
+     * @param fis file.
      */
     public static void readBinary(String fis) {
         ObjectInputStream ois = null;
@@ -393,6 +395,11 @@ public class BookInventory2 {
     
     // Re-used methods from Part 1
     
+    /**
+     * Get the number of records inside the file.
+     * @param fis file.
+     * @return number of lines of data from the input file.
+     */
     private static int getRecordCount(String fis) {
         BufferedReader br = null;
         int recordCount;
@@ -419,6 +426,11 @@ public class BookInventory2 {
         return recordCount;
     }
     
+    /**
+     * Display the content of the input file.
+     * @param fis file.
+     * @throws IOException 
+     */
     private static void displayFileContents(String fis) throws IOException{
         BufferedReader br = null;
         String s = "", lineContent = "";
@@ -438,42 +450,15 @@ public class BookInventory2 {
         System.out.println(s + "\n");
     }
     
+    /**
+     * Check for ISBN input by the user.
+     * @param newISBN ISBN input.
+     * @throws DuplicateISBNException 
+     */
     private static void checkISBNInput(long newISBN) throws DuplicateISBNException {
         for (int i = 0; i < bkArr.length; i++) {
             if (bkArr[i].getISBN() == newISBN)
                 throw new DuplicateISBNException(i);
         }
-    }
-    
-    private static void checkDuplicateISBN(){
-        Scanner input = new Scanner(System.in);
-                
-        for (int i = 0; i < bkArr.length; i++) {
-            for (int j = 0; j < bkArr.length; j++) {
-                if (i != j && bkArr[j].getISBN() == bkArr[i].getISBN()) {
-                    long newISBN;
-                    boolean duplicatedISBN = true;
-                    
-                    while (duplicatedISBN) {
-                        System.out.print("Duplicate ISBN " + bkArr[i].getISBN() + " detected in record #" + (j+1) + ". Please enter the correct ISBN: ");
-                        try {
-                            newISBN = input.nextLong();
-                            try {
-                                checkISBNInput(newISBN);
-                                bkArr[j].setISBN(newISBN);
-                                duplicatedISBN = false;
-                            } catch (DuplicateISBNException e) {
-                                duplicatedISBN = true;
-                                System.out.println("Attempt to duplicate entry to a previous record.\nInitial appearance of ISBN " + newISBN + " was found at record #: " + (e.getDuplicatedIndex()+1));
-                            }
-                        } catch (InputMismatchException e){
-                            duplicatedISBN = true;
-                            System.out.println("You didn't enter a valid ISBN.");
-                        }                            
-                    }
-                }
-            }
-        }
-        input.close();
     }
 }
