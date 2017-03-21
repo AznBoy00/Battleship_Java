@@ -55,13 +55,13 @@ public class BookInventory1{
         try {
             fis = new FileInputStream(FIS_NAME);
         } catch (FileNotFoundException e) {
-            System.out.println("File not found.\nProgram shutting down.");
+            System.out.println(FIS_NAME + " not found.\nProgram shutting down.");
             System.exit(0);
         }
         try {
             fos = new FileOutputStream(fileName);
         } catch (FileNotFoundException e) {
-            System.out.println("File not found.\nProgram shutting down.");
+            System.out.println("File: " + fileName + " not found.\nProgram shutting down.");
             System.exit(0);
         }
         

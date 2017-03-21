@@ -211,18 +211,29 @@ public class BookInventory2 {
      */
     private static void addRecords(String fis) {
         Scanner kb = new Scanner(System.in);
-        String input = "";
+        boolean repeat = true;
 
         do {
-            Book newBook = inputBookInfo(fis, kb);
-            if (newBook != null) {
-                System.out.println("Book entered was registered successfully.");
-                addBook(newBook, fis);
+            try {
+                Book newBook = inputBookInfo(fis, kb);
+                if (newBook != null) {
+                    System.out.println("Book entered was registered successfully.");
+                    addBook(newBook, fis);
+                }
+                System.out.print("Would you like to add another book? (Y/N Any other key will be considered as a no.): ");
+                switch(kb.next().toUpperCase()) {
+                    case "Y":
+                        repeat = true;
+                        break;
+                    default:
+                        repeat = false;
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("InputMismatchExceptionCaught. Try again.");
             }
-            System.out.print("Would you like to add another book? (Y/YES otherwise any key for NO)");
-            input = kb.next().toUpperCase();
             
-        } while(input == "Y" || input == "YES");
+        } while(repeat);
     }
     
     /**
@@ -323,7 +334,7 @@ public class BookInventory2 {
         int pageNumber;
         
         try {
-            System.out.print("Please enter the ISBN of the Book you wish to add to: " + fis + ": ");
+            System.out.print("Please enter the ISBN of the Book you wish to add to " + fis + ": ");
             isbn = kb.nextLong();
             if (!checkISBN(fis, isbn))
                 throw new InputMismatchException();
