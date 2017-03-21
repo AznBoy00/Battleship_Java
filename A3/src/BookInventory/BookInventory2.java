@@ -480,16 +480,4 @@ public class BookInventory2 {
         br.close();
         System.out.println(s + "\n");
     }
-    
-    /**
-     * Check for ISBN input by the user.
-     * @param newISBN ISBN input.
-     * @throws DuplicateISBNException 
-     */
-    private static void checkISBNInput(long newISBN) throws DuplicateISBNException {
-        for (int i = 0; i < bkArr.length; i++) {
-            if (bkArr[i].getISBN() == newISBN)
-                throw new DuplicateISBNException(i);
-        }
-    }
 }
