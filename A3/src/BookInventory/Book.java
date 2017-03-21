@@ -95,8 +95,8 @@ public class Book implements Serializable{
     }
 
     /**
+     * @param ISBN
      * Setter for ISBN.
-     * @return ISBN.
      */
     public void setISBN(long ISBN) {
         this.isbn = ISBN;
@@ -112,7 +112,7 @@ public class Book implements Serializable{
 
     /**
      * Setter for price.
-     * @return price.
+     * @param price.
      */
     public void setPrice(double price) {
         this.price = price;
@@ -128,7 +128,7 @@ public class Book implements Serializable{
 
     /**
      * Setter for page number.
-     * @return pageNumber.
+     * @param pageNumber.
      */
     public void setPageNumber(int pageNumber) {
         this.pageNumber = pageNumber;

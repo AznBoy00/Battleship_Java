@@ -4,7 +4,7 @@
     Written by: Kevin Lin - 40002383
 */
 
-//PART2
+//PART1
 
 import AirTransportation.*;
 import InformationDesk.PublicTransportation;
