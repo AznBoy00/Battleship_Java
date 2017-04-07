@@ -24,10 +24,12 @@ public class RecordManager {
     ArrayList<FullTimeFaculty> fullTimeEmployees;
     ArrayList<PartTimeFaculty> partTimeEmployees;
     ArrayList<TA> TAs;
+    ArrayList<Staff> Staffs;
     
     FullTimeFaculty ftf;
     PartTimeFaculty ptf;
     TA ta;
+    Staff staff;
     
     //Employee variables
     int employeeID;
@@ -45,17 +47,24 @@ public class RecordManager {
     int classNumber;
     //Part Time and TA
     int hourNumber;
+    //Staff
+    String performanceCode;
     
     //1a
+
+    public RecordManager() {
+    }
     
-    public RecordManager(String a, String b, String c) {
+    public void createArrayList(String a, String b, String c, String d) {
         FileInputStream ftf_fis = FileManager.readFile(a);
         FileInputStream ptf_fis = FileManager.readFile(b);
         FileInputStream ta_fis = FileManager.readFile(c);
+        FileInputStream staff_fis = FileManager.readFile(d);
         
         fullTimeEmployees = new ArrayList();
         partTimeEmployees = new ArrayList();
         TAs = new ArrayList();
+        Staffs = new ArrayList();
         
         //Create ArrayList for Full Time Faculty
         s = new Scanner(ftf_fis);
@@ -97,7 +106,23 @@ public class RecordManager {
             year = s.nextInt();
             classification = s.next();
             
-            ta = new TA(classification, hourNumber, studentNumber, employeeID, firstName, familyName, city, year);
+            ftf = new FullTimeFaculty(employeeID, firstName, familyName, city, year, salary);
+            Staffs.add(staff);
+        } while (s.hasNextLine());
+        
+        //Create ArrayLit for Staff
+        s = new Scanner(staff_fis);
+        do {
+            employeeID = s.nextInt();
+            firstName = s.next();
+            familyName = s.next();
+            city = s.next();
+            year = s.nextInt();
+            salary = s.nextInt();
+            performanceCode = s.next();
+            
+            
+            staff = new Staff(salary, performanceCode, employeeID, firstName, familyName, city, year);
             TAs.add(ta);
         } while (s.hasNextLine());
         
@@ -106,10 +131,15 @@ public class RecordManager {
             ftf_fis.close();
             ptf_fis.close();
             ta_fis.close();
+            staff_fis.close();
         } catch (IOException e) {
             System.out.println("IOException caught.\nProgram shutting down.");
             System.exit(0);
         }
+    }
+    
+    public void createLinkedList() {
+        
     }
     
     //1b
@@ -226,8 +256,12 @@ public class RecordManager {
                 city = s.next();
                 System.out.print("Hire year: ");
                 year = s.nextInt();
-                System.out.print("Classification of TA: ");
+                System.out.print("Classification of TA (Grad, UGrd, or Alum): ");
                 classification = s.next();
+                while (checkClassification(classification)) {
+                    System.out.print("Invalid classification, please enter another one (Grad, UGrd, or Alum): ");
+                    classification = s.next();
+                }
                 System.out.print("Number of classes: ");
                 classNumber = s.nextInt();
                 System.out.print("Number of working hours: ");
@@ -265,9 +299,15 @@ public class RecordManager {
         return false;
     }
     
+    private boolean checkClassification(String s) {
+        if ((s.toLowerCase()).equals("grad") || (s.toLowerCase()).equals("ugrd") || (s.toLowerCase()).equals("alum")) {
+            return true;
+        }
+        return false;
+    }
+    
     private void addToTxt(Object a, String fis) {
         PrintWriter pw = null;
-        
         try {
             pw = new PrintWriter(new FileOutputStream(fis, true));
         } catch (FileNotFoundException e) {
@@ -277,5 +317,9 @@ public class RecordManager {
         pw.println();
         pw.print(a);
         pw.close();
+    }
+    
+    private double findTermSalary() {
+        
     }
 }

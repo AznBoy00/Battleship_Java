@@ -11,9 +11,9 @@ package Employee;
 public class Staff extends Employee{
     
     private int salary;
-    private char performanceCode;
+    private String performanceCode;
 
-    public Staff(int salary, char performanceCode, int employeeID, String firstName, String familyName, String city, int year) {
+    public Staff(int salary, String performanceCode, int employeeID, String firstName, String familyName, String city, int year) {
         super(employeeID, firstName, familyName, city, year);
         this.salary = salary;
         this.performanceCode = performanceCode;
@@ -27,11 +27,11 @@ public class Staff extends Employee{
         this.salary = salary;
     }
 
-    public char getPerformanceCode() {
+    public String getPerformanceCode() {
         return performanceCode;
     }
 
-    public void setPerformanceCode(char performanceCode) {
+    public void setPerformanceCode(String performanceCode) {
         this.performanceCode = performanceCode;
     }
 
