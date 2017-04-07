@@ -55,24 +55,62 @@ public class RecordManager {
             familyName = s.next();
             city = s.next();
             year = s.nextInt();
-            salary = s.nextInt();
+            hourlyRate = s.nextDouble();
+            studentNumber = s.nextInt();
+            hourNumber = s.nextInt();
             
             ftf = new FullTimeFaculty(employeeID, firstName, familyName, city, year, salary);
             fullTimeEmployees.add(ftf);
         } while (s.hasNextLine());
         
-        addFullTimeEmployee();
+        addNewFullTimeEmployee();
     }
     
-    public void addPTRecords() {
+    public void addPTRecords(String fileName) {
+        FileInputStream fis = FileManager.readFile(fileName);
+        partTimeEmployees = new ArrayList();
+        PartTimeFaculty ptf;
         
-    }
-    
-    public void addTARecords() {
+        s = new Scanner(fis);
         
+        do {
+            employeeID = s.nextInt();
+            firstName = s.next();
+            familyName = s.next();
+            city = s.next();
+            year = s.nextInt();
+            salary = s.nextInt();
+            
+            ptf = new PartTimeFaculty(hourlyRate, hourNumber, studentNumber, employeeID, firstName, familyName, city, year);
+            partTimeEmployees.add(ptf);
+        } while (s.hasNextLine());
+        
+        addNewPartTimeEmployee();
     }
     
-    private FullTimeFaculty addFullTimeEmployee(){
+    public void addTARecords(String fileName) {
+        FileInputStream fis = FileManager.readFile(fileName);
+        TAs = new ArrayList();
+        TA ta;
+        
+        s = new Scanner(fis);
+        
+        do {
+            employeeID = s.nextInt();
+            firstName = s.next();
+            familyName = s.next();
+            city = s.next();
+            year = s.nextInt();
+            classification = s.next();
+            
+            ta = new TA(classification, hourNumber, studentNumber, employeeID, firstName, familyName, city, year);
+            TAs.add(ta);
+        } while (s.hasNextLine());
+        
+        addNewTA();
+    }
+    
+    private FullTimeFaculty addNewFullTimeEmployee(){
         s = new Scanner(System.in);
         
         do {
