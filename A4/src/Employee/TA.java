@@ -44,6 +44,10 @@ public class TA extends Employee{
     public void setHourNumber(int hourNumber) {
         this.hourNumber = hourNumber;
     }
-    
+
+    @Override
+    public String toString() {
+        return super.toString() + classification + "\t" + classNumber + "\t" + hourNumber;
+    }
     
 }

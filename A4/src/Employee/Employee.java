@@ -63,5 +63,10 @@ public class Employee {
     public void setYear(int year) {
         this.year = year;
     }
+
+    @Override
+    public String toString() {
+        return employeeID + " " + firstName + "\t" + familyName + "\t" + city + "\t" + year + "\t";
+    }
     
 }

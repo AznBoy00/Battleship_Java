@@ -24,5 +24,10 @@ public class FullTimeFaculty extends Employee{
     public void setSalary(int salary) {
         this.salary = salary;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + salary;
+    }
     
 }

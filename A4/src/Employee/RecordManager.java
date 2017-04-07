@@ -5,6 +5,10 @@
 package Employee;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -20,6 +24,10 @@ public class RecordManager {
     ArrayList<FullTimeFaculty> fullTimeEmployees;
     ArrayList<PartTimeFaculty> partTimeEmployees;
     ArrayList<TA> TAs;
+    
+    FullTimeFaculty ftf;
+    PartTimeFaculty ptf;
+    TA ta;
     
     //Employee variables
     int employeeID;
@@ -38,19 +46,19 @@ public class RecordManager {
     //Part Time and TA
     int hourNumber;
     
-    
-    public RecordManager() {
-    }
-    
     //1a
     
-    public void addFTRecords(String fileName) {
-        FileInputStream fis = FileManager.readFile(fileName);
+    public RecordManager(String a, String b, String c) {
+        FileInputStream ftf_fis = FileManager.readFile(a);
+        FileInputStream ptf_fis = FileManager.readFile(b);
+        FileInputStream ta_fis = FileManager.readFile(c);
+        
         fullTimeEmployees = new ArrayList();
-        FullTimeFaculty ftf;
+        partTimeEmployees = new ArrayList();
+        TAs = new ArrayList();
         
-        s = new Scanner(fis);
-        
+        //Create ArrayList for Full Time Faculty
+        s = new Scanner(ftf_fis);
         do {
             employeeID = s.nextInt();
             firstName = s.next();
@@ -65,16 +73,8 @@ public class RecordManager {
             fullTimeEmployees.add(ftf);
         } while (s.hasNextLine());
         
-        addNewFullTimeEmployee();
-    }
-    
-    public void addPTRecords(String fileName) {
-        FileInputStream fis = FileManager.readFile(fileName);
-        partTimeEmployees = new ArrayList();
-        PartTimeFaculty ptf;
-        
-        s = new Scanner(fis);
-        
+        //Create ArrayList for Part Time Faculty
+        s = new Scanner(ptf_fis);
         do {
             employeeID = s.nextInt();
             firstName = s.next();
@@ -87,16 +87,8 @@ public class RecordManager {
             partTimeEmployees.add(ptf);
         } while (s.hasNextLine());
         
-        addNewPartTimeEmployee();
-    }
-    
-    public void addTARecords(String fileName) {
-        FileInputStream fis = FileManager.readFile(fileName);
-        TAs = new ArrayList();
-        TA ta;
-        
-        s = new Scanner(fis);
-        
+        //Create ArrayLit for TAs
+        s = new Scanner(ta_fis);
         do {
             employeeID = s.nextInt();
             firstName = s.next();
@@ -109,12 +101,20 @@ public class RecordManager {
             TAs.add(ta);
         } while (s.hasNextLine());
         
-        addNewTA();
+        //Close the streams.
+        try {
+            ftf_fis.close();
+            ptf_fis.close();
+            ta_fis.close();
+        } catch (IOException e) {
+            System.out.println("IOException caught.\nProgram shutting down.");
+            System.exit(0);
+        }
     }
     
     //1b
     
-    private void addNewFullTimeEmployee(){
+    public void addFTRecords(String fileName) {
         s = new Scanner(System.in);
         FullTimeFaculty ftf;
         
@@ -145,6 +145,7 @@ public class RecordManager {
                 
                 ftf = new FullTimeFaculty(employeeID, firstName, familyName, city, year, salary);
                 fullTimeEmployees.add(ftf);
+                addToTxt((FullTimeFaculty)ftf, fileName);
                 
                 System.out.print("Would you like to add another full time employee?");
                 s.next();
@@ -154,7 +155,7 @@ public class RecordManager {
         } while(!s.equals("-1"));
     }
     
-    private void addNewPartTimeEmployee(){
+    public void addPTRecords(String fileName) {
         s = new Scanner(System.in);
         PartTimeFaculty ptf;
         
@@ -189,6 +190,7 @@ public class RecordManager {
                 
                 ptf = new PartTimeFaculty(hourlyRate, hourNumber, studentNumber, employeeID, firstName, familyName, city, year);
                 partTimeEmployees.add(ptf);
+                addToTxt((PartTimeFaculty)ptf, fileName);
                 
                 System.out.print("Would you like to add another part time employee?");
                 s.next();
@@ -198,7 +200,7 @@ public class RecordManager {
         } while(!s.equals("-1"));
     }
     
-    private void addNewTA(){
+    public void addTARecords(String fileName) {
         s = new Scanner(System.in);
         TA ta;
         
@@ -233,6 +235,7 @@ public class RecordManager {
                 
                 ta = new TA(classification, hourNumber, studentNumber, employeeID, firstName, familyName, city, year);
                 TAs.add(ta);
+                addToTxt((TA)ta, fileName);
                 
                 System.out.print("Would you like to add another TA?");
                 s.next();
@@ -260,5 +263,19 @@ public class RecordManager {
             }
         }
         return false;
+    }
+    
+    private void addToTxt(Object a, String fis) {
+        PrintWriter pw = null;
+        
+        try {
+            pw = new PrintWriter(new FileOutputStream(fis, true));
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found.\nProgram shutting down.");
+            System.exit(0);
+        }
+        pw.println();
+        pw.print(a);
+        pw.close();
     }
 }

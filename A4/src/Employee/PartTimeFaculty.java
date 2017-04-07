@@ -45,4 +45,8 @@ public class PartTimeFaculty extends Employee{
         this.studentNumber = studentNumber;
     }
     
+    @Override
+    public String toString() {
+        return super.toString() + hourlyRate + "\t" + hourNumber + "\t" + studentNumber;
+    }
 }

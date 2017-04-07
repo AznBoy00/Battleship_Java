@@ -34,4 +34,9 @@ public class Staff extends Employee{
     public void setPerformanceCode(char performanceCode) {
         this.performanceCode = performanceCode;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + salary + "\t" + performanceCode;
+    }
 }
