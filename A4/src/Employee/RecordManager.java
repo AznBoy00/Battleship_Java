@@ -6,7 +6,7 @@ package Employee;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -41,6 +41,8 @@ public class RecordManager {
     
     public RecordManager() {
     }
+    
+    //1a
     
     public void addFTRecords(String fileName) {
         FileInputStream fis = FileManager.readFile(fileName);
@@ -110,14 +112,26 @@ public class RecordManager {
         addNewTA();
     }
     
-    private FullTimeFaculty addNewFullTimeEmployee(){
+    //1b
+    
+    private void addNewFullTimeEmployee(){
         s = new Scanner(System.in);
+        FullTimeFaculty ftf;
         
         do {
             try {
-                System.out.println("Please enter the new information of the new employee.");
+                System.out.println("Please enter the new information of the new full time employee.");
                 System.out.print("Employee ID: ");
                 employeeID = s.nextInt();
+                while (checkID(fullTimeEmployees, partTimeEmployees, TAs, employeeID)) {
+                    try {
+                        System.out.print("Enter another employee ID: ");
+                        employeeID = s.nextInt();
+                        throw new DuplicatedIDException(employeeID);
+                    } catch(DuplicatedIDException e) {
+                        System.out.println("ID duplication detected.");
+                    }
+                }
                 System.out.print("First Name: ");
                 firstName = s.next();
                 System.out.print("Family Name: ");
@@ -129,32 +143,122 @@ public class RecordManager {
                 System.out.print("Salary: ");
                 salary = s.nextInt();
                 
+                ftf = new FullTimeFaculty(employeeID, firstName, familyName, city, year, salary);
+                fullTimeEmployees.add(ftf);
                 
-            } catch(InputMismatchException) {
+                System.out.print("Would you like to add another full time employee?");
+                s.next();
+            } catch(InputMismatchException e) {
                 System.out.println("InputMismatchExceptionCaught. Try again.");
             }
-        } while(!s.equals(-1));
+        } while(!s.equals("-1"));
     }
     
-    private boolean checkID() {
-        int recordCount = getRecordCount(fis);
-        Scanner sc = null;
-        long lastISBN;
+    private void addNewPartTimeEmployee(){
+        s = new Scanner(System.in);
+        PartTimeFaculty ptf;
         
-        try {
-            sc = new Scanner(new FileInputStream(fis));
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found.\nProgram shutting down.");
-            System.exit(0);
+        do {
+            try {
+                System.out.println("Please enter the new information of the new part time employee.");
+                System.out.print("Employee ID: ");
+                employeeID = s.nextInt();
+                while (checkID(fullTimeEmployees, partTimeEmployees, TAs, employeeID)) {
+                    try {
+                        System.out.print("Enter another employee ID: ");
+                        employeeID = s.nextInt();
+                        throw new DuplicatedIDException(employeeID);
+                    } catch(DuplicatedIDException e) {
+                        System.out.println("ID duplication detected.");
+                    }
+                }
+                System.out.print("First Name: ");
+                firstName = s.next();
+                System.out.print("Family Name: ");
+                familyName = s.next();
+                System.out.print("City of residence: ");
+                city = s.next();
+                System.out.print("Hire year: ");
+                year = s.nextInt();
+                System.out.print("Hourly rate: ");
+                hourlyRate = s.nextInt();
+                System.out.print("Number of hours: ");
+                hourNumber = s.nextInt();
+                System.out.print("Number of student: ");
+                studentNumber = s.nextInt();
+                
+                ptf = new PartTimeFaculty(hourlyRate, hourNumber, studentNumber, employeeID, firstName, familyName, city, year);
+                partTimeEmployees.add(ptf);
+                
+                System.out.print("Would you like to add another part time employee?");
+                s.next();
+            } catch(InputMismatchException e) {
+                System.out.println("InputMismatchExceptionCaught. Try again.");
+            }
+        } while(!s.equals("-1"));
+    }
+    
+    private void addNewTA(){
+        s = new Scanner(System.in);
+        TA ta;
+        
+        do {
+            try {
+                System.out.println("Please enter the new information of the new TA.");
+                System.out.print("Employee ID: ");
+                employeeID = s.nextInt();
+                while (checkID(fullTimeEmployees, partTimeEmployees, TAs, employeeID)) {
+                    try {
+                        System.out.print("Enter another employee ID: ");
+                        employeeID = s.nextInt();
+                        throw new DuplicatedIDException(employeeID);
+                    } catch(DuplicatedIDException e) {
+                        System.out.println("ID duplication detected.");
+                    }
+                }
+                System.out.print("First Name: ");
+                firstName = s.next();
+                System.out.print("Family Name: ");
+                familyName = s.next();
+                System.out.print("City of residence: ");
+                city = s.next();
+                System.out.print("Hire year: ");
+                year = s.nextInt();
+                System.out.print("Classification of TA: ");
+                classification = s.next();
+                System.out.print("Number of classes: ");
+                classNumber = s.nextInt();
+                System.out.print("Number of working hours: ");
+                hourNumber = s.nextInt();
+                
+                ta = new TA(classification, hourNumber, studentNumber, employeeID, firstName, familyName, city, year);
+                TAs.add(ta);
+                
+                System.out.print("Would you like to add another TA?");
+                s.next();
+            } catch(InputMismatchException e) {
+                System.out.println("InputMismatchExceptionCaught. Try again.");
+            }
+        } while(!s.equals("-1"));
+    }
+    
+    private boolean checkID(ArrayList<FullTimeFaculty> a, ArrayList<PartTimeFaculty> b, ArrayList<TA> c, int newID) {
+        s = new Scanner(System.in);
+        for (int i = 0; i < a.size(); i++) {
+            if (newID == ((FullTimeFaculty)a.get(i)).getEmployeeID()) {
+                return true;
+            }
         }
-        for (int i = 0; i < (recordCount - 1); i++)
-            sc.nextLine();
-        lastISBN = sc.nextLong();
-        if (ISBNinput <= lastISBN) {
-            System.out.println("The ISBN entered has to have an ID greater than the last ISBN on the sorted list.\nPlease enter a valid ISBN.");
-            return false;
-        } else {
-            return true;
+        for (int i = 0; i < b.size(); i++) {
+            if (newID == ((PartTimeFaculty)b.get(i)).getEmployeeID()) {
+                return true;
+            }
         }
+        for (int i = 0; i < c.size(); i++) {
+            if (newID == ((TA)c.get(i)).getEmployeeID()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
