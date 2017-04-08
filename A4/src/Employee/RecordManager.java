@@ -139,6 +139,7 @@ public class RecordManager {
     }
     
     public void createLinkedList() {
+        createArrayList(Constants.AppConstants.FULL_TIME_FACULTY_TXT, Constants.AppConstants.PART_TIME_FACULTY_TXT, Constants.AppConstants.TA_TXT, Constants.AppConstants.STAFF_TXT);
         
     }
     
@@ -153,7 +154,7 @@ public class RecordManager {
                 System.out.println("Please enter the new information of the new full time employee.");
                 System.out.print("Employee ID: ");
                 employeeID = s.nextInt();
-                while (checkID(fullTimeEmployees, partTimeEmployees, TAs, employeeID)) {
+                while (checkID(fullTimeEmployees, partTimeEmployees, TAs, Staffs, employeeID)) {
                     try {
                         System.out.print("Enter another employee ID: ");
                         employeeID = s.nextInt();
@@ -194,7 +195,7 @@ public class RecordManager {
                 System.out.println("Please enter the new information of the new part time employee.");
                 System.out.print("Employee ID: ");
                 employeeID = s.nextInt();
-                while (checkID(fullTimeEmployees, partTimeEmployees, TAs, employeeID)) {
+                while (checkID(fullTimeEmployees, partTimeEmployees, TAs, Staffs, employeeID)) {
                     try {
                         System.out.print("Enter another employee ID: ");
                         employeeID = s.nextInt();
@@ -239,7 +240,7 @@ public class RecordManager {
                 System.out.println("Please enter the new information of the new TA.");
                 System.out.print("Employee ID: ");
                 employeeID = s.nextInt();
-                while (checkID(fullTimeEmployees, partTimeEmployees, TAs, employeeID)) {
+                while (checkID(fullTimeEmployees, partTimeEmployees, TAs, Staffs, employeeID)) {
                     try {
                         System.out.print("Enter another employee ID: ");
                         employeeID = s.nextInt();
@@ -279,7 +280,7 @@ public class RecordManager {
         } while(!s.equals("-1"));
     }
     
-    private boolean checkID(ArrayList<FullTimeFaculty> a, ArrayList<PartTimeFaculty> b, ArrayList<TA> c, int newID) {
+    private boolean checkID(ArrayList<FullTimeFaculty> a, ArrayList<PartTimeFaculty> b, ArrayList<TA> c, ArrayList<Staff> d, int newID) {
         s = new Scanner(System.in);
         for (int i = 0; i < a.size(); i++) {
             if (newID == ((FullTimeFaculty)a.get(i)).getEmployeeID()) {
@@ -293,6 +294,11 @@ public class RecordManager {
         }
         for (int i = 0; i < c.size(); i++) {
             if (newID == ((TA)c.get(i)).getEmployeeID()) {
+                return true;
+            }
+        }
+        for (int i = 0; i < d.size(); i++) {
+            if (newID == ((Staff)d.get(i)).getEmployeeID()) {
                 return true;
             }
         }
@@ -320,6 +326,6 @@ public class RecordManager {
     }
     
     private double findTermSalary() {
-        
+        return 0.0;
     }
 }
