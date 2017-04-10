@@ -29,7 +29,7 @@ public class EmployeeManagerApp {
                     + "6) Increase staff salary.\n"
                     + "7) Exit.");
             selection = s.nextInt();
-
+            System.out.println("\n\n\n");
             switch(selection) {
                 case 0:
                     System.exit(0);
@@ -45,16 +45,21 @@ public class EmployeeManagerApp {
                     break;
                 case 4:
                     rm.findTermSalary();
+                    break;
                 case 5:
                     rm.findHighest_and_Lowest_FT_Salary();
+                    break;
                 case 6:
-                    
+                    rm.Increase_Staff_Salary();
+                    break;
                 case 7:
+                    
+                case 8:
                     System.exit(0);
                     System.out.println("Thanks for using the employee manager app!");
                     break;
                 default:
-                    System.out.println("Invalide input, exiting program...");
+                    System.out.println("Invalid input, exiting program...");
                     System.exit(0);
                     break;
             }

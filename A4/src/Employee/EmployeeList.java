@@ -185,10 +185,31 @@ public class EmployeeList {
             }
         }
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        return hash;
+    
+    public void IncreaseStaffSalary() {
+        EmployeeNode t = head;
+        double bonus;
+        if (t != null) {
+            do{
+                bonus = 0;
+                if (((Staff)t.employee).getPerformanceCode().toLowerCase().equals("a")) {
+                    bonus = 0.08*t.employee.getSalary();
+                } else if (((Staff)t.employee).getPerformanceCode().toLowerCase().equals("b")){
+                    bonus = 0.06*t.employee.getSalary();
+                } else if (((Staff)t.employee).getPerformanceCode().toLowerCase().equals("c")){
+                    bonus = 0.03*t.employee.getSalary();
+                } else if (((Staff)t.employee).getPerformanceCode().toLowerCase().equals("d")){
+                    bonus = 0.01*t.employee.getSalary();
+                } else if (((Staff)t.employee).getPerformanceCode().toLowerCase().equals("e")){
+                    bonus = 0.00*t.employee.getSalary();
+                } else {
+                    System.out.println("ERROR! Invalide code. Exiting...");
+                    System.exit(1);
+                }
+                t.employee.setSalary((t.employee.getSalary() + bonus));
+                ((Staff)(t.employee)).setPerformanceCode("E");
+                t = t.next;
+            } while (t.next != null);
+        }
     }
 }

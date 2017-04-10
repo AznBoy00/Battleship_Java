@@ -12,7 +12,7 @@ public class Staff extends Employee{
     
     private String performanceCode;
 
-    public Staff(String performanceCode, int employeeID, String firstName, String familyName, String city, int year, int salary) {
+    public Staff(String performanceCode, int employeeID, String firstName, String familyName, String city, int year, double salary) {
         super(employeeID, firstName, familyName, city, year, salary);
         this.performanceCode = performanceCode;
     }

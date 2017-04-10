@@ -42,7 +42,7 @@ public class RecordManager {
     String city;
     int year;
     //Full Time Employee
-    int salary;
+    double salary;
     //Part Time Employee
     double hourlyRate;
     int studentNumber;
@@ -86,7 +86,7 @@ public class RecordManager {
             familyName = s.next();
             city = s.next();
             year = s.nextInt();
-            salary = s.nextInt();
+            salary = s.nextDouble();
             
             ftf = new FullTimeFaculty(employeeID, firstName, familyName, city, year, salary);
             fullTimeEmployees.add(ftf);
@@ -137,7 +137,7 @@ public class RecordManager {
             familyName = s.next();
             city = s.next();
             year = s.nextInt();
-            salary = s.nextInt();
+            salary = s.nextDouble();
             performanceCode = s.next();
             
             staff = new Staff(performanceCode, employeeID, firstName, familyName, city, year, salary);
@@ -189,11 +189,11 @@ public class RecordManager {
                 System.out.print("Hire year: ");
                 year = s.nextInt();
                 System.out.print("Salary: ");
-                salary = s.nextInt();
+                salary = s.nextDouble();
                 
                 ftf = new FullTimeFaculty(employeeID, firstName, familyName, city, year, salary);
                 fullTimeEmployees.add(ftf);
-                addToTxt((FullTimeFaculty)ftf, fileName);
+                addFTToTxt((FullTimeFaculty)ftf, fileName);
                 
                 System.out.print("Would you like to add another full time employee?");
                 s.next();
@@ -242,7 +242,7 @@ public class RecordManager {
                 
                 ptf = new PartTimeFaculty(hourlyRate, hourNumber, studentNumber, employeeID, firstName, familyName, city, year);
                 partTimeEmployees.add(ptf);
-                addToTxt((PartTimeFaculty)ptf, fileName);
+                addPTToTxt((PartTimeFaculty)ptf, fileName);
                 
                 System.out.print("Would you like to add another part time employee?");
                 s.next();
@@ -295,7 +295,7 @@ public class RecordManager {
                 
                 ta = new TA(classification, hourNumber, studentNumber, employeeID, firstName, familyName, city, year);
                 TAs.add(ta);
-                addToTxt((TA)ta, fileName);
+                addTAToTxt((TA)ta, fileName);
                 
                 System.out.print("Would you like to add another TA?");
                 s.next();
@@ -356,7 +356,7 @@ public class RecordManager {
      * @param a Employee object to string.
      * @param fis FileInputStream
      */
-    private void addToTxt(Employee a, String fis) {
+    private void addFTToTxt(Employee a, String fis) {
         PrintWriter pw = null;
         try {
             pw = new PrintWriter(new FileOutputStream(fis, true));
@@ -365,10 +365,39 @@ public class RecordManager {
             System.exit(0);
         }
         pw.println();
-        pw.print(a);
+        pw.print(((FullTimeFaculty)a));
         pw.close();
     }
     
+    private void addPTToTxt(Employee a, String fis) {
+        PrintWriter pw = null;
+        try {
+            pw = new PrintWriter(new FileOutputStream(fis, true));
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found.\nProgram shutting down.");
+            System.exit(0);
+        }
+        pw.println();
+        pw.print(((PartTimeFaculty)a));
+        pw.close();
+    }
+    
+    private void addTAToTxt(Employee a, String fis) {
+        PrintWriter pw = null;
+        try {
+            pw = new PrintWriter(new FileOutputStream(fis, true));
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found.\nProgram shutting down.");
+            System.exit(0);
+        }
+        pw.println();
+        pw.print(((TA)a));
+        pw.close();
+    }
+    
+    /**
+     * Find Term Salaries for part time and TAs.
+     */
     public void findTermSalary() {
         EmployeeList partTimeEmployeesLL = new EmployeeList();
         EmployeeList TAsLL = new EmployeeList();
@@ -415,10 +444,21 @@ public class RecordManager {
             }
         } while (s.hasNextLine());
         
+        try {
+            ptf_fis.close();
+            ta_fis.close();
+        } catch (IOException e) {
+            System.out.println("IOException caught.\nProgram shutting down.");
+            System.exit(0);
+        }
+        
         combinedSalary = partTimeEmployeesLL.getTotalSalary()+TAsLL.getTotalSalary();
         System.out.println("The combine total salary of part-time faculty and teaching assistants(TAs) is: $" + combinedSalary);        
     }
     
+    /**
+     * Find Highest and Lowest for Full Time Salaries.
+     */
     public void findHighest_and_Lowest_FT_Salary() {
         EmployeeList fullTimeEmployeesLL = new EmployeeList();
         FileInputStream ftf_fis = FileManager.readFile(AppConstants.FULL_TIME_FACULTY_TXT);
@@ -430,13 +470,65 @@ public class RecordManager {
             familyName = s.next();
             city = s.next();
             year = s.nextInt();
-            salary = s.nextInt();
+            salary = s.nextDouble();
             
             ftf = new FullTimeFaculty(employeeID, firstName, familyName, city, year, salary);
             fullTimeEmployeesLL.addAtEnd(ftf);
         } while (s.hasNextLine());
         
+        try {
+            ftf_fis.close();
+        } catch (IOException e) {
+            System.out.println("IOException caught.\nProgram shutting down.");
+            System.exit(0);
+        }
+        
         fullTimeEmployeesLL.findLowestSalary();
         fullTimeEmployeesLL.findHighestSalary();
-    } 
+    }
+    
+    /**
+     * Increase the Staff Salary
+     */
+    public void Increase_Staff_Salary() {
+        EmployeeList staffLL = new EmployeeList();
+        FileInputStream staff_fis = FileManager.readFile(AppConstants.STAFF_TXT);
+        PrintWriter pw = null;
+        
+        s = new Scanner(staff_fis);
+        do {
+            employeeID = s.nextInt();
+            firstName = s.next();
+            familyName = s.next();
+            city = s.next();
+            year = s.nextInt();
+            salary = s.nextDouble();
+            performanceCode = s.next();
+            
+            staff = new Staff(performanceCode, employeeID, firstName, familyName, city, year, salary);
+            Staffs.add(staff);
+        } while (s.hasNextLine());
+        
+        try {
+            staff_fis.close();
+        } catch (IOException e) {
+            System.out.println("IOException caught.\nProgram shutting down.");
+            System.exit(0);
+        }
+        
+        staffLL.IncreaseStaffSalary();
+        
+        try {
+                pw = new PrintWriter(new FileOutputStream(AppConstants.STAFF_TXT, true));
+                pw.flush();
+            } catch (FileNotFoundException e) {
+                System.out.println("File not found.\nProgram shutting down.");
+                System.exit(0);
+            }
+        for (int i = 0; i < staffLL.size(); i++) {
+            pw.println(((Staff)(staffLL.getEmployee(i))));
+            pw.close();
+        }
+        
+    }
 }

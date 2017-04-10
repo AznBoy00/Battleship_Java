@@ -10,7 +10,7 @@ package Employee;
  */
 public class FullTimeFaculty extends Employee{
 
-    public FullTimeFaculty(int employeeID, String firstName, String familyName, String city, int year, int salary) {
+    public FullTimeFaculty(int employeeID, String firstName, String familyName, String city, int year, double salary) {
         super(employeeID, firstName, familyName, city, year, salary);
     }
 
