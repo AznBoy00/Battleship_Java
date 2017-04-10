@@ -8,7 +8,7 @@ package Employee;
  *
  * @author Kevin Lin - @AznBoy00
  */
-public class Employee {
+abstract class Employee implements Ordered {
     
     private int employeeID;
     private String firstName;
@@ -72,6 +72,24 @@ public class Employee {
 
     public void setYear(int year) {
         this.year = year;
+    }
+    
+    @Override
+    public boolean precedes(Object obj) {
+        if (obj != null)
+        if(this.getYear() < ((Employee)obj).getYear()) {
+            return true;
+        }
+        return false;
+    }
+    
+    @Override
+    public boolean follows(Object obj) {
+        if (obj != null)
+        if(this.getYear() > ((Employee)obj).getYear()) {
+            return true;
+        }
+        return false;
     }
 
     @Override
