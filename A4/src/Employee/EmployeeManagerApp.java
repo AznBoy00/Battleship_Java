@@ -12,12 +12,20 @@ import java.util.Scanner;
  */
 public class EmployeeManagerApp {
     public static void main(String[] args) {
+        System.out.println("Welcome to Concordia's employee manager app!\n\n\nInitializing local txt files...\t\t\t");
+        
         Scanner s = new Scanner(System.in);
         int selection;
         RecordManager rm = new RecordManager();
         rm.createArrayList(Constants.AppConstants.FULL_TIME_FACULTY_TXT, Constants.AppConstants.PART_TIME_FACULTY_TXT, Constants.AppConstants.TA_TXT, Constants.AppConstants.STAFF_TXT);
         
-        System.out.println("Welcome to Concordia's employee manager app!");
+        System.out.println("The Alum will be deleted, now let's fix the duplicated IDs:");
+        rm.fixFTDuplicatedIDs();
+        rm.fixPTDuplicatedIDs();
+        rm.fixStaffDuplicatedIDs();
+        rm.fixTADuplicatedIDs();
+        
+        System.out.println("Done...");        
         
         while(true) {
             System.out.println("\n\n\nPlease select from the following options:\n"
@@ -53,8 +61,6 @@ public class EmployeeManagerApp {
                     rm.Increase_Staff_Salary();
                     break;
                 case 7:
-                    
-                case 8:
                     System.exit(0);
                     System.out.println("Thanks for using the employee manager app!");
                     break;

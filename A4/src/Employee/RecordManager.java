@@ -125,7 +125,7 @@ public class RecordManager {
                 TAs.add(ta);
             } else {
                 System.out.println("Invalid entry: " + employeeID + " " + firstName + "\t" + familyName + "\t" + city + "\t" + year + "\t" + classification + "\t" + classNumber + "\t" + hourNumber);
-                System.out.println("Not added to ArrayList.");
+                System.out.println("Not added to ArrayList. (Cause: invalide classification)");
             }
         } while (s.hasNextLine());
         
@@ -153,6 +153,195 @@ public class RecordManager {
         } catch (IOException e) {
             System.out.println("IOException caught.\nProgram shutting down.");
             System.exit(0);
+        }
+    }
+    
+    /**
+     * Checks new ID Input for fixDuplicatedIDs()
+     * @param newID
+     * @throws DuplicatedIDException 
+     */
+    private void checkFTNewIDInput(int newID) throws DuplicatedIDException {
+        for (int i = 0; i < fullTimeEmployees.size(); i++) {
+            if (newID == fullTimeEmployees.get(i).getEmployeeID()) {
+                throw new DuplicatedIDException(i);
+            }                                    
+        }
+    }
+    
+    /**
+     * Fix FullTime Duplicated IDs
+     */
+    public void fixFTDuplicatedIDs() {
+        s = new Scanner(System.in);
+        
+        for (int i = 0; i < fullTimeEmployees.size(); i++) {
+            for (int j = 0; j < fullTimeEmployees.size(); j++) {
+                if (fullTimeEmployees.get(i).getEmployeeID() == fullTimeEmployees.get(j).getEmployeeID()) {
+                    int newID;
+                    boolean checkID = true;
+                    
+                    while(checkID) {
+                        System.out.print("Duplicate ID " + fullTimeEmployees.get(i).getEmployeeID() + " detected in record #" + (j+1) + ". Please enter the correct ISBN: ");
+                        try {
+                            newID = s.nextInt();
+                            try {
+                                checkFTNewIDInput(newID);
+                                fullTimeEmployees.get(j).setEmployeeID(newID);
+                                checkID = false;
+                            } catch (DuplicatedIDException e) {
+                                checkID = true;
+                                System.out.println("Attempt to duplicate entry to a previous record.\nInitial appearance of ID " + newID + " was found at record #: " + (e.getDuplicatedIndex()+1));
+                            }
+                        } catch (InputMismatchException e){
+                            checkID = true;
+                            System.out.println("You didn't enter a valid ID.");
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    
+    /**
+     * Checks new ID Input for fixDuplicatedIDs()
+     * @param newID
+     * @throws DuplicatedIDException 
+     */
+    private void checkPTNewIDInput(int newID) throws DuplicatedIDException {
+        for (int i = 0; i < partTimeEmployees.size(); i++) {
+            if (newID == partTimeEmployees.get(i).getEmployeeID()) {
+                throw new DuplicatedIDException(i);
+            }                                    
+        }
+    }
+    
+    /**
+     * Fix FullTime Duplicated IDs
+     */
+    public void fixPTDuplicatedIDs() {
+        s = new Scanner(System.in);
+        
+        for (int i = 0; i < partTimeEmployees.size(); i++) {
+            for (int j = 0; j < partTimeEmployees.size(); j++) {
+                if (partTimeEmployees.get(i).getEmployeeID() == partTimeEmployees.get(j).getEmployeeID()) {
+                    int newID;
+                    boolean checkID = true;
+                    
+                    while(checkID) {
+                        System.out.print("Duplicate ID " + partTimeEmployees.get(i).getEmployeeID() + " detected in record #" + (j+1) + ". Please enter the correct ISBN: ");
+                        try {
+                            newID = s.nextInt();
+                            try {
+                                checkFTNewIDInput(newID);
+                                partTimeEmployees.get(j).setEmployeeID(newID);
+                                checkID = false;
+                            } catch (DuplicatedIDException e) {
+                                checkID = true;
+                                System.out.println("Attempt to duplicate entry to a previous record.\nInitial appearance of ID " + newID + " was found at record #: " + (e.getDuplicatedIndex()+1));
+                            }
+                        } catch (InputMismatchException e){
+                            checkID = true;
+                            System.out.println("You didn't enter a valid ID.");
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * Checks new ID Input for fixDuplicatedIDs()
+     * @param newID
+     * @throws DuplicatedIDException 
+     */
+    private void checkStaffNewIDInput(int newID) throws DuplicatedIDException {
+        for (int i = 0; i < Staffs.size(); i++) {
+            if (newID == Staffs.get(i).getEmployeeID()) {
+                throw new DuplicatedIDException(i);
+            }                                    
+        }
+    }
+    
+    /**
+     * Fix Staff Duplicated IDs
+     */
+    public void fixStaffDuplicatedIDs() {
+        s = new Scanner(System.in);
+        
+        for (int i = 0; i < Staffs.size(); i++) {
+            for (int j = 0; j < Staffs.size(); j++) {
+                if (Staffs.get(i).getEmployeeID() == Staffs.get(j).getEmployeeID()) {
+                    int newID;
+                    boolean checkID = true;
+                    
+                    while(checkID) {
+                        System.out.print("Duplicate ID " + Staffs.get(i).getEmployeeID() + " detected in record #" + (j+1) + ". Please enter the correct ISBN: ");
+                        try {
+                            newID = s.nextInt();
+                            try {
+                                checkFTNewIDInput(newID);
+                                Staffs.get(j).setEmployeeID(newID);
+                                checkID = false;
+                            } catch (DuplicatedIDException e) {
+                                checkID = true;
+                                System.out.println("Attempt to duplicate entry to a previous record.\nInitial appearance of ID " + newID + " was found at record #: " + (e.getDuplicatedIndex()+1));
+                            }
+                        } catch (InputMismatchException e){
+                            checkID = true;
+                            System.out.println("You didn't enter a valid ID.");
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * Checks new ID Input for fixDuplicatedIDs()
+     * @param newID
+     * @throws DuplicatedIDException 
+     */
+    private void checkTANewIDInput(int newID) throws DuplicatedIDException {
+        for (int i = 0; i < TAs.size(); i++) {
+            if (newID == TAs.get(i).getEmployeeID()) {
+                throw new DuplicatedIDException(i);
+            }                                    
+        }
+    }
+    
+    /**
+     * Fix Staff Duplicated IDs
+     */
+    public void fixTADuplicatedIDs() {
+        s = new Scanner(System.in);
+        
+        for (int i = 0; i < TAs.size(); i++) {
+            for (int j = 0; j < TAs.size(); j++) {
+                if (TAs.get(i).getEmployeeID() == TAs.get(j).getEmployeeID()) {
+                    int newID;
+                    boolean checkID = true;
+                    
+                    while(checkID) {
+                        System.out.print("Duplicate ID " + TAs.get(i).getEmployeeID() + " detected in record #" + (j+1) + ". Please enter the correct ISBN: ");
+                        try {
+                            newID = s.nextInt();
+                            try {
+                                checkFTNewIDInput(newID);
+                                TAs.get(j).setEmployeeID(newID);
+                                checkID = false;
+                            } catch (DuplicatedIDException e) {
+                                checkID = true;
+                                System.out.println("Attempt to duplicate entry to a previous record.\nInitial appearance of ID " + newID + " was found at record #: " + (e.getDuplicatedIndex()+1));
+                            }
+                        } catch (InputMismatchException e){
+                            checkID = true;
+                            System.out.println("You didn't enter a valid ID.");
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -440,7 +629,7 @@ public class RecordManager {
                 TAsLL.addAtEnd(ta);
             } else {
                 System.out.println("Invalid entry: " + employeeID + " " + firstName + "\t" + familyName + "\t" + city + "\t" + year + "\t" + classification + "\t" + classNumber + "\t" + hourNumber);
-                System.out.println("Not added to LinkedList.");
+                System.out.println("Not added to LinkedList. (Cause: Invalid Classification.)");
             }
         } while (s.hasNextLine());
         
