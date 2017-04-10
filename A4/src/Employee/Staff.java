@@ -27,6 +27,6 @@ public class Staff extends Employee{
 
     @Override
     public String toString() {
-        return super.toString() + super.getSalary() + "\t" + performanceCode;
+        return super.toString() + ((int)getSalary()) + "\t" + performanceCode;
     }
 }

@@ -19,11 +19,13 @@ public class EmployeeManagerApp {
         RecordManager rm = new RecordManager();
         rm.createArrayList(Constants.AppConstants.FULL_TIME_FACULTY_TXT, Constants.AppConstants.PART_TIME_FACULTY_TXT, Constants.AppConstants.TA_TXT, Constants.AppConstants.STAFF_TXT);
         
-        System.out.println("The Alum will be deleted, now let's fix the duplicated IDs:");
+        System.out.println("\n\n\nThe Alum will be deleted, now let's fix the duplicated IDs:");
         rm.fixFTDuplicatedIDs();
         rm.fixPTDuplicatedIDs();
         rm.fixStaffDuplicatedIDs();
         rm.fixTADuplicatedIDs();
+        System.out.println("Rewriting the txt files.");
+        rm.reAlWriteTxt();
         
         System.out.println("Done...");        
         

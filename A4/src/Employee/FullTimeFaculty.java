@@ -16,7 +16,7 @@ public class FullTimeFaculty extends Employee{
 
     @Override
     public String toString() {
-        return super.toString() + getSalary();
+        return super.toString() + ((int)getSalary());
     }
     
 }

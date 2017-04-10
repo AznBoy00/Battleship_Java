@@ -157,6 +157,37 @@ public class RecordManager {
     }
     
     /**
+     * Rewrite the ArrayLists into the text files.
+     */
+    public void reAlWriteTxt() {
+        try {
+            PrintWriter pw = new PrintWriter(new FileOutputStream(AppConstants.FULL_TIME_FACULTY_TXT, false));
+            for (int i = 0; i < fullTimeEmployees.size(); i++) {
+                pw.println(fullTimeEmployees.get(i));
+            }
+            pw.close();
+            pw = new PrintWriter(new FileOutputStream(AppConstants.PART_TIME_FACULTY_TXT, false));
+            for (int i = 0; i < partTimeEmployees.size(); i++) {
+                pw.println(partTimeEmployees.get(i));
+            }
+            pw.close();
+            pw = new PrintWriter(new FileOutputStream(AppConstants.STAFF_TXT, false));
+            for (int i = 0; i < Staffs.size(); i++) {
+                pw.println(Staffs.get(i));
+            }
+            pw.close();
+            pw = new PrintWriter(new FileOutputStream(AppConstants.TA_TXT, false));
+            for (int i = 0; i < TAs.size(); i++) {
+                pw.println(TAs.get(i));
+            }
+            pw.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("FileNotFoundException caught. Exiting...");
+            System.exit(0);
+        }
+    }
+    
+    /**
      * Checks new ID Input for fixDuplicatedIDs()
      * @param newID
      * @throws DuplicatedIDException 
@@ -165,7 +196,7 @@ public class RecordManager {
         for (int i = 0; i < fullTimeEmployees.size(); i++) {
             if (newID == fullTimeEmployees.get(i).getEmployeeID()) {
                 throw new DuplicatedIDException(i);
-            }                                    
+            }
         }
     }
     
@@ -177,12 +208,12 @@ public class RecordManager {
         
         for (int i = 0; i < fullTimeEmployees.size(); i++) {
             for (int j = 0; j < fullTimeEmployees.size(); j++) {
-                if (fullTimeEmployees.get(i).getEmployeeID() == fullTimeEmployees.get(j).getEmployeeID()) {
+                if (i != j && fullTimeEmployees.get(i).getEmployeeID() == fullTimeEmployees.get(j).getEmployeeID()) {
                     int newID;
                     boolean checkID = true;
                     
                     while(checkID) {
-                        System.out.print("Duplicate ID " + fullTimeEmployees.get(i).getEmployeeID() + " detected in record #" + (j+1) + ". Please enter the correct ISBN: ");
+                        System.out.print("Duplicate ID " + fullTimeEmployees.get(i).getEmployeeID() + " detected in record #" + (j+1) + ". Please enter the correct ID: ");
                         try {
                             newID = s.nextInt();
                             try {
@@ -225,16 +256,16 @@ public class RecordManager {
         
         for (int i = 0; i < partTimeEmployees.size(); i++) {
             for (int j = 0; j < partTimeEmployees.size(); j++) {
-                if (partTimeEmployees.get(i).getEmployeeID() == partTimeEmployees.get(j).getEmployeeID()) {
+                if (i != j && partTimeEmployees.get(i).getEmployeeID() == partTimeEmployees.get(j).getEmployeeID()) {
                     int newID;
                     boolean checkID = true;
                     
                     while(checkID) {
-                        System.out.print("Duplicate ID " + partTimeEmployees.get(i).getEmployeeID() + " detected in record #" + (j+1) + ". Please enter the correct ISBN: ");
+                        System.out.print("Duplicate ID " + partTimeEmployees.get(i).getEmployeeID() + " detected in record #" + (j+1) + ". Please enter the correct ID: ");
                         try {
                             newID = s.nextInt();
                             try {
-                                checkFTNewIDInput(newID);
+                                checkPTNewIDInput(newID);
                                 partTimeEmployees.get(j).setEmployeeID(newID);
                                 checkID = false;
                             } catch (DuplicatedIDException e) {
@@ -272,16 +303,16 @@ public class RecordManager {
         
         for (int i = 0; i < Staffs.size(); i++) {
             for (int j = 0; j < Staffs.size(); j++) {
-                if (Staffs.get(i).getEmployeeID() == Staffs.get(j).getEmployeeID()) {
+                if (i != j && Staffs.get(i).getEmployeeID() == Staffs.get(j).getEmployeeID()) {
                     int newID;
                     boolean checkID = true;
                     
                     while(checkID) {
-                        System.out.print("Duplicate ID " + Staffs.get(i).getEmployeeID() + " detected in record #" + (j+1) + ". Please enter the correct ISBN: ");
+                        System.out.print("Duplicate ID " + Staffs.get(i).getEmployeeID() + " detected in record #" + (j+1) + ". Please enter the correct ID: ");
                         try {
                             newID = s.nextInt();
                             try {
-                                checkFTNewIDInput(newID);
+                                checkStaffNewIDInput(newID);
                                 Staffs.get(j).setEmployeeID(newID);
                                 checkID = false;
                             } catch (DuplicatedIDException e) {
@@ -319,16 +350,16 @@ public class RecordManager {
         
         for (int i = 0; i < TAs.size(); i++) {
             for (int j = 0; j < TAs.size(); j++) {
-                if (TAs.get(i).getEmployeeID() == TAs.get(j).getEmployeeID()) {
+                if (i != j && TAs.get(i).getEmployeeID() == TAs.get(j).getEmployeeID()) {
                     int newID;
                     boolean checkID = true;
                     
                     while(checkID) {
-                        System.out.print("Duplicate ID " + TAs.get(i).getEmployeeID() + " detected in record #" + (j+1) + ". Please enter the correct ISBN: ");
+                        System.out.print("Duplicate ID " + TAs.get(i).getEmployeeID() + " detected in record #" + (j+1) + ". Please enter the correct ID: ");
                         try {
                             newID = s.nextInt();
                             try {
-                                checkFTNewIDInput(newID);
+                                checkTANewIDInput(newID);
                                 TAs.get(j).setEmployeeID(newID);
                                 checkID = false;
                             } catch (DuplicatedIDException e) {
@@ -384,12 +415,12 @@ public class RecordManager {
                 fullTimeEmployees.add(ftf);
                 addFTToTxt((FullTimeFaculty)ftf, fileName);
                 
-                System.out.print("Would you like to add another full time employee?");
+                System.out.print("Would you like to add another full time employee? ");
                 s.next();
             } catch(InputMismatchException e) {
                 System.out.println("InputMismatchExceptionCaught. Try again.");
             }
-        } while(!s.equals("-1"));
+        } while(s.nextInt() != -1);
     }
     
     /**
@@ -433,12 +464,12 @@ public class RecordManager {
                 partTimeEmployees.add(ptf);
                 addPTToTxt((PartTimeFaculty)ptf, fileName);
                 
-                System.out.print("Would you like to add another part time employee?");
+                System.out.print("Would you like to add another part time employee? ");
                 s.next();
             } catch(InputMismatchException e) {
                 System.out.println("InputMismatchExceptionCaught. Try again.");
             }
-        } while(!s.equals("-1"));
+        } while(s.nextInt() != -1);
     }
     
     /**
@@ -471,10 +502,10 @@ public class RecordManager {
                 city = s.next();
                 System.out.print("Hire year: ");
                 year = s.nextInt();
-                System.out.print("Classification of TA (Grad, UGrd): ");
+                System.out.print("Classification of TA (Grad, UGrad): ");
                 classification = s.next();
                 while (checkClassification(classification)) {
-                    System.out.print("Invalid classification, please enter another one (Grad, UGrd): ");
+                    System.out.print("Invalid classification, please enter another one (Grad, UGrad): ");
                     classification = s.next();
                 }
                 System.out.print("Number of classes: ");
@@ -486,12 +517,12 @@ public class RecordManager {
                 TAs.add(ta);
                 addTAToTxt((TA)ta, fileName);
                 
-                System.out.print("Would you like to add another TA?");
+                System.out.print("Would you like to add another TA? ");
                 s.next();
             } catch(InputMismatchException e) {
                 System.out.println("InputMismatchExceptionCaught. Try again.");
             }
-        } while(!s.equals("-1"));
+        } while(s.nextInt() != -1);
     }
     
     /**
@@ -534,7 +565,7 @@ public class RecordManager {
      * @return true = matching classification, false = not a classification code.
      */
     private boolean checkClassification(String s) {
-        if ((s.toLowerCase()).equals("grad") || (s.toLowerCase()).equals("ugrd")) {
+        if ((s.toLowerCase()).equals("grad") || (s.toLowerCase()).equals("ugrad")) {
             return true;
         }
         return false;

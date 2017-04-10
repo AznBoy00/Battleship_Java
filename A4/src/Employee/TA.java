@@ -29,7 +29,7 @@ public class TA extends Employee{
         TAsalary = 0;
         if (this.getClassification().toLowerCase().equals("grad".toLowerCase())) {
             TAsalary = (double)(AppConstants.GD_TA_RATE*hourNumber);
-        } else if (this.getClassification().toLowerCase().equals("ugrd".toLowerCase())) {
+        } else if (this.getClassification().toLowerCase().equals("ugrad".toLowerCase())) {
             TAsalary = (double)(AppConstants.UD_TA_RATE*hourNumber);
         } else if (this.getClassification().toLowerCase().equals("alum")) {
             TAsalary = -1;
