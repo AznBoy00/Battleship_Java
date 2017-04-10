@@ -612,19 +612,6 @@ public class RecordManager {
         pw.close();
     }
     
-    private void addStaffToTxt(Employee a, String fis) {
-        PrintWriter pw = null;
-        try {
-            pw = new PrintWriter(new FileOutputStream(fis, false));
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found.\nProgram shutting down.");
-            System.exit(0);
-        }
-        pw.println();
-        pw.print(((Staff)a));
-        pw.close();
-    }
-    
     /**
      * Find Term Salaries for part time and TAs.
      */
@@ -720,51 +707,7 @@ public class RecordManager {
     
     /**
      * Increase the Staff Salary
-     */
-    /*public void Increase_Staff_Salary() {
-        EmployeeList staffLL = new EmployeeList();
-        FileInputStream staff_fis = FileManager.readFile(AppConstants.STAFF_TXT);
-        PrintWriter pw = null;
-        
-        s = new Scanner(staff_fis);
-        while (s.hasNextLine() && s.hasNext()) {
-            employeeID = s.nextInt();
-            firstName = s.next();
-            familyName = s.next();
-            city = s.next();
-            year = s.nextInt();
-            salary = s.nextDouble();
-            performanceCode = s.next();
-            
-            staff = new Staff(performanceCode, employeeID, firstName, familyName, city, year, salary);
-            Staffs.add(staff);
-        } 
-        
-        try {
-            staff_fis.close();
-        } catch (IOException e) {
-            System.out.println("IOException caught.\nProgram shutting down.");
-            System.exit(0);
-        }
-        
-        staffLL.IncreaseStaffSalary();
-        
-        try {
-            pw = new PrintWriter(new FileOutputStream(AppConstants.STAFF_TXT, false));
-            for (int i = 0; i < staffLL.size(); i++) {
-                pw.println(((Staff)(staffLL.getEmployee(i))).toString());
-            }
-            pw.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found.\nProgram shutting down.");
-            System.exit(0);
-        }
-        for (int i = 0; i < staffLL.size(); i++) {
-            System.out.println(staffLL.getEmployee(i).toString());
-        }
-        
-    }*/
-    
+     */    
     public void Increase_Staff_Salary() {
         EmployeeList staffLL = new EmployeeList();
         FileInputStream staff_fis = FileManager.readFile(AppConstants.STAFF_TXT);
@@ -791,13 +734,24 @@ public class RecordManager {
         }
         
         staffLL.IncreaseStaffSalary();
-        for (int i = 0; i < staffLL.size(); i++) {
-            addStaffToTxt(staffLL.getEmployee(i), AppConstants.STAFF_TXT);
-        }
-        for (int i = 0; i < staffLL.size(); i++) {
-            System.out.println(staffLL.getEmployee(i).toString());
-        }
         
+        PrintWriter pw = null;
+        for (int i = 0; i < staffLL.size(); i++) {
+            try {
+                if (i == 0)
+                    pw = new PrintWriter(new FileOutputStream(AppConstants.STAFF_TXT, false));
+                pw = new PrintWriter(new FileOutputStream(AppConstants.STAFF_TXT, true));
+                pw.println((((Staff)staffLL.getEmployee(i)).toString()));
+                pw.close();
+            } catch (FileNotFoundException e) {
+                System.out.println("File not found.\nProgram shutting down.");
+                System.exit(0);
+            }
+        }
+        /*for (int i = 0; i < staffLL.size(); i++) {
+            System.out.println(staffLL.getEmployee(i).toString());
+        }*/
+        System.out.println("Done.");
     }
     
 }

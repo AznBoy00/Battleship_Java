@@ -24,7 +24,6 @@ public class EmployeeManagerApp {
         rm.fixPTDuplicatedIDs();
         rm.fixStaffDuplicatedIDs();
         rm.fixTADuplicatedIDs();
-        System.out.println("Rewriting the txt files.");
         rm.reWriteAlToTxt();
         
         System.out.println("Done...");        
