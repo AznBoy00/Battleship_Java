@@ -80,7 +80,7 @@ public class RecordManager {
         
         //Create ArrayList for Full Time Faculty
         s = new Scanner(ftf_fis);
-        do {
+        while (s.hasNextLine() && s.hasNext()) {
             employeeID = s.nextInt();
             firstName = s.next();
             familyName = s.next();
@@ -90,11 +90,11 @@ public class RecordManager {
             
             ftf = new FullTimeFaculty(employeeID, firstName, familyName, city, year, salary);
             fullTimeEmployees.add(ftf);
-        } while (s.hasNextLine());
+        }
         
         //Create ArrayList for Part Time Faculty
         s = new Scanner(ptf_fis);
-        do {
+        while (s.hasNextLine() && s.hasNext()) {
             employeeID = s.nextInt();
             firstName = s.next();
             familyName = s.next();
@@ -106,11 +106,11 @@ public class RecordManager {
             
             ptf = new PartTimeFaculty(hourlyRate, hourNumber, studentNumber, employeeID, firstName, familyName, city, year);
             partTimeEmployees.add(ptf);
-        } while (s.hasNextLine());
+        }
         
         //Create ArrayLit for TAs
         s = new Scanner(ta_fis);
-        do {
+         while (s.hasNextLine() && s.hasNext()) {
             employeeID = s.nextInt();
             firstName = s.next();
             familyName = s.next();
@@ -127,11 +127,11 @@ public class RecordManager {
                 System.out.println("Invalid entry: " + employeeID + " " + firstName + "\t" + familyName + "\t" + city + "\t" + year + "\t" + classification + "\t" + classNumber + "\t" + hourNumber);
                 System.out.println("Not added to ArrayList. (Cause: invalide classification)");
             }
-        } while (s.hasNextLine());
+        }
         
         //Create ArrayLit for Staff
         s = new Scanner(staff_fis);
-        do {
+        while (s.hasNextLine() && s.hasNext()) {
             employeeID = s.nextInt();
             firstName = s.next();
             familyName = s.next();
@@ -142,7 +142,7 @@ public class RecordManager {
             
             staff = new Staff(performanceCode, employeeID, firstName, familyName, city, year, salary);
             Staffs.add(staff);
-        } while (s.hasNextLine());
+        }
         
         //Close the streams.
         try {
@@ -159,7 +159,7 @@ public class RecordManager {
     /**
      * Rewrite the ArrayLists into the text files.
      */
-    public void reAlWriteTxt() {
+    public void reWriteAlToTxt() {
         try {
             PrintWriter pw = new PrintWriter(new FileOutputStream(AppConstants.FULL_TIME_FACULTY_TXT, false));
             for (int i = 0; i < fullTimeEmployees.size(); i++) {
@@ -415,12 +415,11 @@ public class RecordManager {
                 fullTimeEmployees.add(ftf);
                 addFTToTxt((FullTimeFaculty)ftf, fileName);
                 
-                System.out.print("Would you like to add another full time employee? ");
-                s.next();
+                System.out.print("Would you like to add another full time employee? (-1 to exit)");
             } catch(InputMismatchException e) {
                 System.out.println("InputMismatchExceptionCaught. Try again.");
             }
-        } while(s.nextInt() != -1);
+        } while(!s.next().equals("-1"));
     }
     
     /**
@@ -464,12 +463,11 @@ public class RecordManager {
                 partTimeEmployees.add(ptf);
                 addPTToTxt((PartTimeFaculty)ptf, fileName);
                 
-                System.out.print("Would you like to add another part time employee? ");
-                s.next();
+                System.out.print("Would you like to add another part time employee? (-1 to exit)");
             } catch(InputMismatchException e) {
                 System.out.println("InputMismatchExceptionCaught. Try again.");
             }
-        } while(s.nextInt() != -1);
+        } while(!s.next().equals("-1"));
     }
     
     /**
@@ -504,7 +502,7 @@ public class RecordManager {
                 year = s.nextInt();
                 System.out.print("Classification of TA (Grad, UGrad): ");
                 classification = s.next();
-                while (checkClassification(classification)) {
+                while (!checkClassification(classification)) {
                     System.out.print("Invalid classification, please enter another one (Grad, UGrad): ");
                     classification = s.next();
                 }
@@ -517,12 +515,11 @@ public class RecordManager {
                 TAs.add(ta);
                 addTAToTxt((TA)ta, fileName);
                 
-                System.out.print("Would you like to add another TA? ");
-                s.next();
+                System.out.print("Would you like to add another TA? (-1 to exit)");
             } catch(InputMismatchException e) {
                 System.out.println("InputMismatchExceptionCaught. Try again.");
             }
-        } while(s.nextInt() != -1);
+        } while(!s.next().equals("-1"));
     }
     
     /**
@@ -615,6 +612,19 @@ public class RecordManager {
         pw.close();
     }
     
+    private void addStaffToTxt(Employee a, String fis) {
+        PrintWriter pw = null;
+        try {
+            pw = new PrintWriter(new FileOutputStream(fis, false));
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found.\nProgram shutting down.");
+            System.exit(0);
+        }
+        pw.println();
+        pw.print(((Staff)a));
+        pw.close();
+    }
+    
     /**
      * Find Term Salaries for part time and TAs.
      */
@@ -641,11 +651,11 @@ public class RecordManager {
             
             ptf = new PartTimeFaculty(hourlyRate, hourNumber, studentNumber, employeeID, firstName, familyName, city, year);
             partTimeEmployeesLL.addAtEnd(ptf);
-        } while (s.hasNextLine());
+        } while (s.hasNextLine() && s.hasNext());
         
         //Add TA to LL
         s = new Scanner(ta_fis);
-        do {
+        while (s.hasNextLine() && s.hasNext()) {
             employeeID = s.nextInt();
             firstName = s.next();
             familyName = s.next();
@@ -662,7 +672,7 @@ public class RecordManager {
                 System.out.println("Invalid entry: " + employeeID + " " + firstName + "\t" + familyName + "\t" + city + "\t" + year + "\t" + classification + "\t" + classNumber + "\t" + hourNumber);
                 System.out.println("Not added to LinkedList. (Cause: Invalid Classification.)");
             }
-        } while (s.hasNextLine());
+        }
         
         try {
             ptf_fis.close();
@@ -684,7 +694,7 @@ public class RecordManager {
         FileInputStream ftf_fis = FileManager.readFile(AppConstants.FULL_TIME_FACULTY_TXT);
         
         s = new Scanner(ftf_fis);
-        do {
+        while (s.hasNextLine() && s.hasNext()) {
             employeeID = s.nextInt();
             firstName = s.next();
             familyName = s.next();
@@ -694,7 +704,7 @@ public class RecordManager {
             
             ftf = new FullTimeFaculty(employeeID, firstName, familyName, city, year, salary);
             fullTimeEmployeesLL.addAtEnd(ftf);
-        } while (s.hasNextLine());
+        }
         
         try {
             ftf_fis.close();
@@ -704,19 +714,20 @@ public class RecordManager {
         }
         
         fullTimeEmployeesLL.findLowestSalary();
+        System.out.println("");
         fullTimeEmployeesLL.findHighestSalary();
     }
     
     /**
      * Increase the Staff Salary
      */
-    public void Increase_Staff_Salary() {
+    /*public void Increase_Staff_Salary() {
         EmployeeList staffLL = new EmployeeList();
         FileInputStream staff_fis = FileManager.readFile(AppConstants.STAFF_TXT);
         PrintWriter pw = null;
         
         s = new Scanner(staff_fis);
-        do {
+        while (s.hasNextLine() && s.hasNext()) {
             employeeID = s.nextInt();
             firstName = s.next();
             familyName = s.next();
@@ -727,7 +738,7 @@ public class RecordManager {
             
             staff = new Staff(performanceCode, employeeID, firstName, familyName, city, year, salary);
             Staffs.add(staff);
-        } while (s.hasNextLine());
+        } 
         
         try {
             staff_fis.close();
@@ -739,16 +750,54 @@ public class RecordManager {
         staffLL.IncreaseStaffSalary();
         
         try {
-                pw = new PrintWriter(new FileOutputStream(AppConstants.STAFF_TXT, true));
-                pw.flush();
-            } catch (FileNotFoundException e) {
-                System.out.println("File not found.\nProgram shutting down.");
-                System.exit(0);
+            pw = new PrintWriter(new FileOutputStream(AppConstants.STAFF_TXT, false));
+            for (int i = 0; i < staffLL.size(); i++) {
+                pw.println(((Staff)(staffLL.getEmployee(i))).toString());
             }
-        for (int i = 0; i < staffLL.size(); i++) {
-            pw.println(((Staff)(staffLL.getEmployee(i))));
             pw.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found.\nProgram shutting down.");
+            System.exit(0);
+        }
+        for (int i = 0; i < staffLL.size(); i++) {
+            System.out.println(staffLL.getEmployee(i).toString());
+        }
+        
+    }*/
+    
+    public void Increase_Staff_Salary() {
+        EmployeeList staffLL = new EmployeeList();
+        FileInputStream staff_fis = FileManager.readFile(AppConstants.STAFF_TXT);
+        
+        s = new Scanner(staff_fis);
+        while (s.hasNextLine() && s.hasNext()) {
+            employeeID = s.nextInt();
+            firstName = s.next();
+            familyName = s.next();
+            city = s.next();
+            year = s.nextInt();
+            salary = s.nextDouble();
+            performanceCode = s.next();
+            
+            staff = new Staff(performanceCode, employeeID, firstName, familyName, city, year, salary);
+            staffLL.addAtEnd(staff);
+        } 
+        
+        try {
+            staff_fis.close();
+        } catch (IOException e) {
+            System.out.println("IOException caught.\nProgram shutting down.");
+            System.exit(0);
+        }
+        
+        staffLL.IncreaseStaffSalary();
+        for (int i = 0; i < staffLL.size(); i++) {
+            addStaffToTxt(staffLL.getEmployee(i), AppConstants.STAFF_TXT);
+        }
+        for (int i = 0; i < staffLL.size(); i++) {
+            System.out.println(staffLL.getEmployee(i).toString());
         }
         
     }
+    
 }

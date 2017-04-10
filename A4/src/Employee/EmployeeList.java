@@ -118,78 +118,64 @@ public class EmployeeList {
     }
     
     public void findLowestSalary() {
-        double lowest = head.employee.getSalary();
         EmployeeNode t = head;
-        EmployeeList lowestSalaries = new EmployeeList();
+        double lowest = -1;
+        if (t != null)
+            lowest = head.employee.getSalary();
+        
         if (t != null) {
             do{
-                if(t.employee.getSalary() < lowest) {
+                if (t.employee.getSalary() < lowest) {
                     lowest = t.employee.getSalary();
                 }
                 t = t.next;
             } while (t.next != null);
         }
-        t = head;
-        if (t != null) {
-            do{
-                if(t.employee.getSalary() == lowest) {
-                    lowestSalaries.addAtEnd(t.employee);
-                }
-                t = t.next;
-            } while (t.next != null);
-        }
-        
-        if (lowestSalaries.size() > 1) {
-            System.out.println("The employees with the lowest salary are:");
-            for (int i = 0; i < lowestSalaries.size(); i++) {
-                System.out.println(toString());
-            }
-        } else {
-            System.out.println("The employee with the lowest salary is:");
-            for (int i = 0; i < lowestSalaries.size(); i++) {
-                System.out.println(toString());
+        if (lowest > 0) {
+            System.out.println("The employee(s) with the lowest salary is/are:");
+            t = head;
+            if (t != null) {
+                do{
+                    if (t.employee.getSalary() == lowest) {
+                        System.out.println(t.employee.toString());
+                    }
+                    t = t.next;
+                } while (t.next != null);
             }
         }
     }
     
     public void findHighestSalary() {
-        double highest = head.employee.getSalary();
         EmployeeNode t = head;
-        EmployeeList highestSalaries = new EmployeeList();
+        double highest = -1;
+        if (t != null)
+            highest = head.employee.getSalary();
+        
         if (t != null) {
             do{
-                if(t.employee.getSalary() > highest) {
+                if (t.employee.getSalary() > highest) {
                     highest = t.employee.getSalary();
                 }
                 t = t.next;
             } while (t.next != null);
         }
-        t = head;
-        if (t != null) {
-            do{
-                if(t.employee.getSalary() == highest) {
-                    highestSalaries.addAtEnd(t.employee);
-                }
-                t = t.next;
-            } while (t.next != null);
-        }
-        if (highestSalaries.size() > 1) {
-            System.out.println("The employees with the highest salary are:");
-            for (int i = 0; i < highestSalaries.size(); i++) {
-                System.out.println(toString());
-            }
-        } else {
-            System.out.println("The employee with the highest salary is:");
-            for (int i = 0; i < highestSalaries.size(); i++) {
-                System.out.println(toString());
+        if (highest > 0) {
+            System.out.println("The employee(s) with the highest salary is/are:");
+            t = head;
+            if (t != null) {
+                do{
+                    if (t.employee.getSalary() == highest) {
+                        System.out.println(t.employee.toString());
+                    }
+                    t = t.next;
+                } while (t.next != null);
             }
         }
     }
     
     public void IncreaseStaffSalary() {
         EmployeeNode t = head;
-        double bonus;
-        if (t != null) {
+        /*if (t != null) {
             do{
                 bonus = 0;
                 if (((Staff)t.employee).getPerformanceCode().toLowerCase().equals("a")) {
@@ -210,6 +196,33 @@ public class EmployeeList {
                 ((Staff)(t.employee)).setPerformanceCode("E");
                 t = t.next;
             } while (t.next != null);
+        }*/
+        while (t != null && t.next != null) {
+            switch (((Staff)t.employee).getPerformanceCode().toLowerCase()) {
+                case "a":
+                    t.employee.setSalary(t.employee.getSalary()*1.08);
+                    ((Staff)(t.employee)).setPerformanceCode("E");
+                    break;
+                case "b":
+                    t.employee.setSalary(t.employee.getSalary()*1.06);
+                    ((Staff)(t.employee)).setPerformanceCode("E");
+                    break;
+                case "c":
+                    t.employee.setSalary(t.employee.getSalary()*1.03);
+                    ((Staff)(t.employee)).setPerformanceCode("E");
+                    break;
+                case "d":
+                    t.employee.setSalary(t.employee.getSalary()*1.01);
+                    ((Staff)(t.employee)).setPerformanceCode("E");
+                    break;
+                case "e":
+                    t.employee.setSalary(t.employee.getSalary());
+                    break;
+                default:
+                    System.out.println("Error on performanceCode");
+                    break;
+            }
+            t = t.next;
         }
     }
 }
