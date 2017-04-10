@@ -140,7 +140,7 @@ public class RecordManager {
             salary = s.nextInt();
             performanceCode = s.next();
             
-            staff = new Staff(salary, performanceCode, employeeID, firstName, familyName, city, year);
+            staff = new Staff(performanceCode, employeeID, firstName, familyName, city, year, salary);
             Staffs.add(staff);
         } while (s.hasNextLine());
         
@@ -153,33 +153,6 @@ public class RecordManager {
         } catch (IOException e) {
             System.out.println("IOException caught.\nProgram shutting down.");
             System.exit(0);
-        }
-    }
-    
-    /**
-     * Create linkedList from the 4 files used from the constants.
-     */
-    public void createLinkedList() {
-        // Merge all to 1 ArrayList (Full Time, Part Time, TA, Staff)
-        createArrayList(Constants.AppConstants.FULL_TIME_FACULTY_TXT, Constants.AppConstants.PART_TIME_FACULTY_TXT, Constants.AppConstants.TA_TXT, Constants.AppConstants.STAFF_TXT);
-        allEmployees = new ArrayList();
-        for (int i = 0; i < fullTimeEmployees.size(); i++) {
-            allEmployees.add(fullTimeEmployees.get(i));
-        }
-        for (int i = 0; i < partTimeEmployees.size(); i++) {
-            allEmployees.add(partTimeEmployees.get(i));
-        }
-        for (int i = 0; i < TAs.size(); i++) {
-            allEmployees.add(TAs.get(i));
-        }
-        for (int i = 0; i < Staffs.size(); i++) {
-            allEmployees.add(Staffs.get(i));
-        }
-        // Convert to LinkedList
-        employeeList = new EmployeeList();
-        
-        for (int i = 0; i < allEmployees.size(); i++) {
-            
         }
     }
     
@@ -442,9 +415,28 @@ public class RecordManager {
             }
         } while (s.hasNextLine());
         
-        for (int i = 0; i < partTimeEmployeesLL.size(); i++) {
-            partTimeEmployeesLL.getTotalSalary();
-        }
-        
+        combinedSalary = partTimeEmployeesLL.getTotalSalary()+TAsLL.getTotalSalary();
+        System.out.println("The combine total salary of part-time faculty and teaching assistants(TAs) is: $" + combinedSalary);        
     }
+    
+    public void findHighest_and_Lowest_FT_Salary() {
+        EmployeeList fullTimeEmployeesLL = new EmployeeList();
+        FileInputStream ftf_fis = FileManager.readFile(AppConstants.FULL_TIME_FACULTY_TXT);
+        
+        s = new Scanner(ftf_fis);
+        do {
+            employeeID = s.nextInt();
+            firstName = s.next();
+            familyName = s.next();
+            city = s.next();
+            year = s.nextInt();
+            salary = s.nextInt();
+            
+            ftf = new FullTimeFaculty(employeeID, firstName, familyName, city, year, salary);
+            fullTimeEmployeesLL.addAtEnd(ftf);
+        } while (s.hasNextLine());
+        
+        fullTimeEmployeesLL.findLowestSalary();
+        fullTimeEmployeesLL.findHighestSalary();
+    } 
 }

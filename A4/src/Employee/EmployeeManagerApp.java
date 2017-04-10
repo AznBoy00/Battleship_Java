@@ -17,9 +17,10 @@ public class EmployeeManagerApp {
         RecordManager rm = new RecordManager();
         rm.createArrayList(Constants.AppConstants.FULL_TIME_FACULTY_TXT, Constants.AppConstants.PART_TIME_FACULTY_TXT, Constants.AppConstants.TA_TXT, Constants.AppConstants.STAFF_TXT);
         
+        System.out.println("Welcome to Concordia's employee manager app!");
+        
         while(true) {
-            System.out.println("Welcome to Concordia's employee manager app!\n"
-                    + "Please select from the following options:\n"
+            System.out.println("\n\n\nPlease select from the following options:\n"
                     + "1) Add a full time employee.\n"
                     + "2) Add a part time employee.\n"
                     + "3) Add a TA.\n"
@@ -45,7 +46,7 @@ public class EmployeeManagerApp {
                 case 4:
                     rm.findTermSalary();
                 case 5:
-                    
+                    rm.findHighest_and_Lowest_FT_Salary();
                 case 6:
                     
                 case 7:

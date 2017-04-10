@@ -109,11 +109,81 @@ public class EmployeeList {
         EmployeeNode t = head;
         if (t != null) {
             do{
+                salaries += t.employee.getSalary();
                 
                 t = t.next;
             } while (t.next != null);
         }
         return salaries;
+    }
+    
+    public void findLowestSalary() {
+        double lowest = head.employee.getSalary();
+        EmployeeNode t = head;
+        EmployeeList lowestSalaries = new EmployeeList();
+        if (t != null) {
+            do{
+                if(t.employee.getSalary() < lowest) {
+                    lowest = t.employee.getSalary();
+                }
+                t = t.next;
+            } while (t.next != null);
+        }
+        t = head;
+        if (t != null) {
+            do{
+                if(t.employee.getSalary() == lowest) {
+                    lowestSalaries.addAtEnd(t.employee);
+                }
+                t = t.next;
+            } while (t.next != null);
+        }
+        
+        if (lowestSalaries.size() > 1) {
+            System.out.println("The employees with the lowest salary are:");
+            for (int i = 0; i < lowestSalaries.size(); i++) {
+                System.out.println(toString());
+            }
+        } else {
+            System.out.println("The employee with the lowest salary is:");
+            for (int i = 0; i < lowestSalaries.size(); i++) {
+                System.out.println(toString());
+            }
+        }
+    }
+    
+    public void findHighestSalary() {
+        double highest = head.employee.getSalary();
+        EmployeeNode t = head;
+        EmployeeList highestSalaries = new EmployeeList();
+        if (t != null) {
+            do{
+                if(t.employee.getSalary() > highest) {
+                    highest = t.employee.getSalary();
+                }
+                t = t.next;
+            } while (t.next != null);
+        }
+        t = head;
+        if (t != null) {
+            do{
+                if(t.employee.getSalary() == highest) {
+                    highestSalaries.addAtEnd(t.employee);
+                }
+                t = t.next;
+            } while (t.next != null);
+        }
+        if (highestSalaries.size() > 1) {
+            System.out.println("The employees with the highest salary are:");
+            for (int i = 0; i < highestSalaries.size(); i++) {
+                System.out.println(toString());
+            }
+        } else {
+            System.out.println("The employee with the highest salary is:");
+            for (int i = 0; i < highestSalaries.size(); i++) {
+                System.out.println(toString());
+            }
+        }
     }
 
     @Override
