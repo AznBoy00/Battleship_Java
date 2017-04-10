@@ -4,33 +4,58 @@
  */
 package Employee;
 
-import java.util.Objects;
+import java.util.NoSuchElementException;
 
 /**
  *
  * @author Kevin Lin - @AznBoy00
  */
 public class EmployeeList {
-    private class ListNode {
-        private Object employee;
-        private ListNode next;
+    private class EmployeeNode {
+        private Employee employee;
+        private EmployeeNode next;
 
-        public ListNode(Object employee, ListNode next) {
+        public EmployeeNode(Employee employee, EmployeeNode next) {
             this.employee = employee;
             this.next = next;
         }
+        
+        public Employee get() {
+            return employee;
+        }
     }
     
-    private ListNode head;
+    private EmployeeNode head;
     
     public EmployeeList() {
         head = null;
     }
     
-    public void addToStart(Object employee) {
-        head = new ListNode(employee, head);
+    public void addToStart(Employee employee) {
+        head = new EmployeeNode(employee, head);
     }
     
+    public Employee getEmployee(int index) {
+		if (index > size() -1)
+		{
+			System.out.println("ERROR: Given index is out of range! Program will terminate. \n");
+			throw new NoSuchElementException();
+		}
+		int i = 0;
+		EmployeeNode temp = head;
+		while(i != index)
+		{
+			temp = temp.next;
+			i++;
+		}
+		
+		return temp.employee;
+	}
+    
+    /**
+     * delete first entry of the node list
+     * @return if delete head node was successful
+     */
     public boolean deleteHeadNode() {
         if (head != null) {
             head = head.next;
@@ -42,7 +67,7 @@ public class EmployeeList {
     
     public int size() {
         int count = 0;
-        ListNode position = head;
+        EmployeeNode position = head;
         while(position != null) {
             count++;
             position = position.next;
@@ -50,11 +75,11 @@ public class EmployeeList {
         return count;
     }
 
-    public ListNode getHead() {
+    public EmployeeNode getHead() {
         return head;
     }
 
-    public void setHead(ListNode head) {
+    public void setHead(EmployeeNode head) {
         this.head = head;
     }
     
@@ -65,30 +90,35 @@ public class EmployeeList {
     public void clear() {
         head = null;
     }
+    
+    public void addAtEnd(Employee e) {
+        if(head == null)
+            head = new EmployeeNode(e, null);
+
+        EmployeeNode enode = head;
+        while(enode.next != null)
+            enode = enode.next;
+
+        EmployeeNode n = new EmployeeNode(e, null);	
+        enode.next = n; 						
+        n = null;
+    }
+    
+    public double getTotalSalary() {
+        double salaries = 0;
+        EmployeeNode t = head;
+        if (t != null) {
+            do{
+                
+                t = t.next;
+            } while (t.next != null);
+        }
+        return salaries;
+    }
 
     @Override
     public int hashCode() {
         int hash = 7;
         return hash;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final EmployeeList other = (EmployeeList) obj;
-        if (!Objects.equals(this.head, other.head)) {
-            return false;
-        }
-        return true;
-    }
-    
-    
 }

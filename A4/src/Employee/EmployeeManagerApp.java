@@ -18,7 +18,8 @@ public class EmployeeManagerApp {
         rm.createArrayList(Constants.AppConstants.FULL_TIME_FACULTY_TXT, Constants.AppConstants.PART_TIME_FACULTY_TXT, Constants.AppConstants.TA_TXT, Constants.AppConstants.STAFF_TXT);
         
         while(true) {
-            System.out.println("Welcome to the employee manager app of Concordia! Please select from the following options.\n"
+            System.out.println("Welcome to Concordia's employee manager app!\n"
+                    + "Please select from the following options:\n"
                     + "1) Add a full time employee.\n"
                     + "2) Add a part time employee.\n"
                     + "3) Add a TA.\n"
@@ -42,15 +43,17 @@ public class EmployeeManagerApp {
                     rm.addTARecords(Constants.AppConstants.TA_TXT);
                     break;
                 case 4:
-                    
+                    rm.findTermSalary();
                 case 5:
                     
                 case 6:
                     
                 case 7:
                     System.exit(0);
+                    System.out.println("Thanks for using the employee manager app!");
                     break;
                 default:
+                    System.out.println("Invalide input, exiting program...");
                     System.exit(0);
                     break;
             }

@@ -4,6 +4,7 @@
  */
 package Employee;
 
+import Constants.AppConstants;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -25,11 +26,14 @@ public class RecordManager {
     ArrayList<PartTimeFaculty> partTimeEmployees;
     ArrayList<TA> TAs;
     ArrayList<Staff> Staffs;
+    ArrayList<Employee> allEmployees;
     
     FullTimeFaculty ftf;
     PartTimeFaculty ptf;
     TA ta;
     Staff staff;
+    
+    EmployeeList employeeList;
     
     //Employee variables
     int employeeID;
@@ -49,12 +53,20 @@ public class RecordManager {
     int hourNumber;
     //Staff
     String performanceCode;
-    
-    //1a
 
+    /**
+     * Default Constructor.
+     */
     public RecordManager() {
     }
     
+    /**
+     * Creates an array list from the 4 different FileInputStream.
+     * @param a fullTimeEmployees
+     * @param b partTimeEmployees
+     * @param c TAs
+     * @param d Staffs
+     */
     public void createArrayList(String a, String b, String c, String d) {
         FileInputStream ftf_fis = FileManager.readFile(a);
         FileInputStream ptf_fis = FileManager.readFile(b);
@@ -74,9 +86,7 @@ public class RecordManager {
             familyName = s.next();
             city = s.next();
             year = s.nextInt();
-            hourlyRate = s.nextDouble();
-            studentNumber = s.nextInt();
-            hourNumber = s.nextInt();
+            salary = s.nextInt();
             
             ftf = new FullTimeFaculty(employeeID, firstName, familyName, city, year, salary);
             fullTimeEmployees.add(ftf);
@@ -90,7 +100,9 @@ public class RecordManager {
             familyName = s.next();
             city = s.next();
             year = s.nextInt();
-            salary = s.nextInt();
+            hourlyRate = s.nextDouble();
+            hourNumber = s.nextInt();
+            studentNumber = s.nextInt();
             
             ptf = new PartTimeFaculty(hourlyRate, hourNumber, studentNumber, employeeID, firstName, familyName, city, year);
             partTimeEmployees.add(ptf);
@@ -105,9 +117,16 @@ public class RecordManager {
             city = s.next();
             year = s.nextInt();
             classification = s.next();
+            classNumber = s.nextInt();
+            hourNumber = s.nextInt();
             
-            ftf = new FullTimeFaculty(employeeID, firstName, familyName, city, year, salary);
-            Staffs.add(staff);
+            if (checkClassification(classification)) {
+                ta = new TA(classification, classNumber, hourNumber, employeeID, firstName, familyName, city, year);
+                TAs.add(ta);
+            } else {
+                System.out.println("Invalid entry: " + employeeID + " " + firstName + "\t" + familyName + "\t" + city + "\t" + year + "\t" + classification + "\t" + classNumber + "\t" + hourNumber);
+                System.out.println("Not added to ArrayList.");
+            }
         } while (s.hasNextLine());
         
         //Create ArrayLit for Staff
@@ -121,9 +140,8 @@ public class RecordManager {
             salary = s.nextInt();
             performanceCode = s.next();
             
-            
             staff = new Staff(salary, performanceCode, employeeID, firstName, familyName, city, year);
-            TAs.add(ta);
+            Staffs.add(staff);
         } while (s.hasNextLine());
         
         //Close the streams.
@@ -138,13 +156,39 @@ public class RecordManager {
         }
     }
     
+    /**
+     * Create linkedList from the 4 files used from the constants.
+     */
     public void createLinkedList() {
+        // Merge all to 1 ArrayList (Full Time, Part Time, TA, Staff)
         createArrayList(Constants.AppConstants.FULL_TIME_FACULTY_TXT, Constants.AppConstants.PART_TIME_FACULTY_TXT, Constants.AppConstants.TA_TXT, Constants.AppConstants.STAFF_TXT);
+        allEmployees = new ArrayList();
+        for (int i = 0; i < fullTimeEmployees.size(); i++) {
+            allEmployees.add(fullTimeEmployees.get(i));
+        }
+        for (int i = 0; i < partTimeEmployees.size(); i++) {
+            allEmployees.add(partTimeEmployees.get(i));
+        }
+        for (int i = 0; i < TAs.size(); i++) {
+            allEmployees.add(TAs.get(i));
+        }
+        for (int i = 0; i < Staffs.size(); i++) {
+            allEmployees.add(Staffs.get(i));
+        }
+        // Convert to LinkedList
+        employeeList = new EmployeeList();
         
+        for (int i = 0; i < allEmployees.size(); i++) {
+            
+        }
     }
     
-    //1b
+    //Add records.
     
+    /**
+     * Add full time record.
+     * @param fileName
+     */
     public void addFTRecords(String fileName) {
         s = new Scanner(System.in);
         FullTimeFaculty ftf;
@@ -186,6 +230,10 @@ public class RecordManager {
         } while(!s.equals("-1"));
     }
     
+    /**
+     * Add part time record.
+     * @param fileName
+     */
     public void addPTRecords(String fileName) {
         s = new Scanner(System.in);
         PartTimeFaculty ptf;
@@ -231,6 +279,10 @@ public class RecordManager {
         } while(!s.equals("-1"));
     }
     
+    /**
+     * Add TA record.
+     * @param fileName
+     */
     public void addTARecords(String fileName) {
         s = new Scanner(System.in);
         TA ta;
@@ -257,10 +309,10 @@ public class RecordManager {
                 city = s.next();
                 System.out.print("Hire year: ");
                 year = s.nextInt();
-                System.out.print("Classification of TA (Grad, UGrd, or Alum): ");
+                System.out.print("Classification of TA (Grad, UGrd): ");
                 classification = s.next();
                 while (checkClassification(classification)) {
-                    System.out.print("Invalid classification, please enter another one (Grad, UGrd, or Alum): ");
+                    System.out.print("Invalid classification, please enter another one (Grad, UGrd): ");
                     classification = s.next();
                 }
                 System.out.print("Number of classes: ");
@@ -280,6 +332,15 @@ public class RecordManager {
         } while(!s.equals("-1"));
     }
     
+    /**
+     * Checks the input ID while adding new records.
+     * @param a fullTimeEmployees
+     * @param b partTimeEmployees
+     * @param c TAs
+     * @param d Staffs
+     * @param newID
+     * @return true = duplicated, false = not duplicated.
+     */
     private boolean checkID(ArrayList<FullTimeFaculty> a, ArrayList<PartTimeFaculty> b, ArrayList<TA> c, ArrayList<Staff> d, int newID) {
         s = new Scanner(System.in);
         for (int i = 0; i < a.size(); i++) {
@@ -305,14 +366,24 @@ public class RecordManager {
         return false;
     }
     
+    /**
+     * Checks if the classification is entered correctly.
+     * @param s classification string.
+     * @return true = matching classification, false = not a classification code.
+     */
     private boolean checkClassification(String s) {
-        if ((s.toLowerCase()).equals("grad") || (s.toLowerCase()).equals("ugrd") || (s.toLowerCase()).equals("alum")) {
+        if ((s.toLowerCase()).equals("grad") || (s.toLowerCase()).equals("ugrd")) {
             return true;
         }
         return false;
     }
     
-    private void addToTxt(Object a, String fis) {
+    /**
+     * Writes the ArrayList to file. (New Line)
+     * @param a Employee object to string.
+     * @param fis FileInputStream
+     */
+    private void addToTxt(Employee a, String fis) {
         PrintWriter pw = null;
         try {
             pw = new PrintWriter(new FileOutputStream(fis, true));
@@ -325,7 +396,55 @@ public class RecordManager {
         pw.close();
     }
     
-    private double findTermSalary() {
-        return 0.0;
+    public void findTermSalary() {
+        EmployeeList partTimeEmployeesLL = new EmployeeList();
+        EmployeeList TAsLL = new EmployeeList();
+        
+        FileInputStream ptf_fis = FileManager.readFile(AppConstants.PART_TIME_FACULTY_TXT);
+        FileInputStream ta_fis = FileManager.readFile(AppConstants.TA_TXT);
+        
+        double combinedSalary = 0.0;
+        
+        //Add part-time to LL
+        s = new Scanner(ptf_fis);
+        do {
+            employeeID = s.nextInt();
+            firstName = s.next();
+            familyName = s.next();
+            city = s.next();
+            year = s.nextInt();
+            hourlyRate = s.nextDouble();
+            hourNumber = s.nextInt();
+            studentNumber = s.nextInt();
+            
+            ptf = new PartTimeFaculty(hourlyRate, hourNumber, studentNumber, employeeID, firstName, familyName, city, year);
+            partTimeEmployeesLL.addAtEnd(ptf);
+        } while (s.hasNextLine());
+        
+        //Add TA to LL
+        s = new Scanner(ta_fis);
+        do {
+            employeeID = s.nextInt();
+            firstName = s.next();
+            familyName = s.next();
+            city = s.next();
+            year = s.nextInt();
+            classification = s.next();
+            classNumber = s.nextInt();
+            hourNumber = s.nextInt();
+            
+            if (checkClassification(classification)) {
+                ta = new TA(classification, classNumber, hourNumber, employeeID, firstName, familyName, city, year);
+                TAsLL.addAtEnd(ta);
+            } else {
+                System.out.println("Invalid entry: " + employeeID + " " + firstName + "\t" + familyName + "\t" + city + "\t" + year + "\t" + classification + "\t" + classNumber + "\t" + hourNumber);
+                System.out.println("Not added to LinkedList.");
+            }
+        } while (s.hasNextLine());
+        
+        for (int i = 0; i < partTimeEmployeesLL.size(); i++) {
+            partTimeEmployeesLL.getTotalSalary();
+        }
+        
     }
 }

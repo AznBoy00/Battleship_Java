@@ -15,13 +15,23 @@ public class Employee {
     private String familyName;
     private String city;
     private int year;
+    private double salary;
 
-    public Employee(int employeeID, String firstName, String familyName, String city, int year) {
+    public Employee(int employeeID, String firstName, String familyName, String city, int year, double salary) {
         this.employeeID = employeeID;
         this.firstName = firstName;
         this.familyName = familyName;
         this.city = city;
         this.year = year;
+        this.salary = salary;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
     }
 
     public int getEmployeeID() {

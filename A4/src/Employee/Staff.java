@@ -10,21 +10,11 @@ package Employee;
  */
 public class Staff extends Employee{
     
-    private int salary;
     private String performanceCode;
 
-    public Staff(int salary, String performanceCode, int employeeID, String firstName, String familyName, String city, int year) {
-        super(employeeID, firstName, familyName, city, year);
-        this.salary = salary;
+    public Staff(String performanceCode, int employeeID, String firstName, String familyName, String city, int year, int salary) {
+        super(employeeID, firstName, familyName, city, year, salary);
         this.performanceCode = performanceCode;
-    }
-
-    public int getSalary() {
-        return salary;
-    }
-
-    public void setSalary(int salary) {
-        this.salary = salary;
     }
 
     public String getPerformanceCode() {
@@ -37,6 +27,6 @@ public class Staff extends Employee{
 
     @Override
     public String toString() {
-        return super.toString() + salary + "\t" + performanceCode;
+        return super.toString() + super.getSalary() + "\t" + performanceCode;
     }
 }
